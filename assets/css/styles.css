@@ -207,8 +207,10 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 /* --------------------------------------------------------------------------
    Section 1 — Cover
    -------------------------------------------------------------------------- */
-.cover { position: relative; min-height: 600px; height: calc(100vh - var(--updates-h) - var(--header-h)); max-height: 820px; overflow: hidden; background: var(--ink); color: var(--white); }
-.cover__media, .cover__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cover { position: relative; min-height: 600px; height: calc(100vh - var(--updates-h) - var(--header-h)); max-height: 820px; overflow: hidden; background: #000; color: var(--white); }
+.cover__media { position: absolute; inset: 0; }
+.cover__img { position: absolute; top: 0; right: 0; height: 100%; width: auto; max-width: none; object-fit: cover; object-position: 50% 50%; }
+.cover__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, #000 22%, rgba(0,0,0,0) 55%); }
 .cover__content {
   position: relative; z-index: 1; height: 100%;
   display: flex; flex-direction: column; justify-content: center;
@@ -244,7 +246,7 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 
 .product__layout { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
 
-.product-tile { position: relative; background: var(--grey-100); }
+.product-tile { position: relative; background: var(--white); border: 1px solid var(--grey-150); }
 .product-tile__image { margin: 0; aspect-ratio: 1; }
 .product-tile__image img { width: 100%; height: 100%; object-fit: cover; }
 .product-tile__badge {
@@ -254,8 +256,8 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 }
 .product-tile__wishlist { position: absolute; top: 12px; right: 12px; z-index: 1; width: 34px; height: 34px; display: grid; place-items: center; background: var(--white); border-radius: 50%; }
 .product-tile__wishlist .icon { width: 18px; height: 18px; }
-.product__thumbs { display: flex; gap: 10px; margin-top: 10px; }
-.product__thumb { width: 72px; height: 72px; border: 1px solid transparent; background: var(--grey-100); padding: 0; overflow: hidden; }
+.product__thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.product__thumb { width: 64px; height: 64px; border: 1px solid var(--grey-150); background: var(--white); padding: 0; overflow: hidden; }
 .product__thumb.is-active, .product__thumb:hover { border-color: var(--black); }
 .product__thumb img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -282,6 +284,33 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 .qty__input { width: 56px; height: 42px; border: 0; border-left: 1px solid var(--black); border-right: 1px solid var(--black); text-align: center; font-size: 1rem; font-family: inherit; -moz-appearance: textfield; }
 .qty__input::-webkit-outer-spin-button, .qty__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .product-add__hint { font-size: .85714rem; color: var(--grey-700); margin: 0 0 1rem; min-height: 1.3em; }
+
+/* Heart quantity picker: five Blamp-shaped hearts, faded until chosen */
+.heart-picker { margin-bottom: 1rem; }
+.heart-picker__row { display: flex; justify-content: space-between; gap: 4px; max-width: 420px; }
+.heart-picker__heart {
+  --heart-fill: #f2f2f2; --heart-stroke: #c9c9c9; --heart-glow: transparent;
+  position: relative; flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 2px 4px; color: var(--grey-500); opacity: .45;
+  transition: opacity .25s ease, transform .25s var(--ease), color .25s ease;
+}
+.heart-picker__heart:hover { opacity: .75; }
+.heart-picker__heart:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
+.heart-picker__svg { width: 100%; max-width: 64px; height: auto; overflow: visible; filter: drop-shadow(0 0 0 transparent); transition: filter .3s ease; }
+/* fills are set through inherited custom properties because CSS cannot select inside a <use> shadow tree */
+.heart-picker__heart { --heart-shine: 0; }
+.heart-picker__num { font-size: .92857rem; font-weight: 900; letter-spacing: .05em; line-height: 1; }
+.heart-picker__heart.is-lit {
+  --heart-fill: #ffffff; --heart-stroke: #9cc6ff; --heart-shine: .9;
+  opacity: 1; color: var(--grey-700); transform: translateY(-2px);
+}
+.heart-picker__heart.is-lit .heart-picker__svg { filter: drop-shadow(0 0 5px rgba(150,200,255,1)) drop-shadow(0 0 14px rgba(130,185,255,.85)); }
+.heart-picker__heart.is-lit .heart-picker__num { color: var(--black); }
+.heart-picker__heart.is-lit .heart-picker__num::after { content: ""; display: block; width: 4px; height: 4px; margin: 4px auto 0; border-radius: 50%; background: var(--black); }
+.heart-picker__heart.is-just-lit .heart-picker__svg { animation: heart-flash .45s var(--ease); }
+@keyframes heart-flash { 0% { filter: drop-shadow(0 0 0 rgba(190,220,255,0)); transform: scale(.94); } 50% { filter: drop-shadow(0 0 14px rgba(190,220,255,1)) drop-shadow(0 0 28px rgba(160,200,255,.9)); transform: scale(1.06); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .heart-picker__heart, .heart-picker__svg { transition: none; animation: none !important; } }
+.heart-picker__caption { margin: .5rem 0 0; font-size: .85714rem; color: var(--grey-700); }
 .product-add .btn { display: block; }
 .product-add .btn--secondary { margin-bottom: 0; }
 
@@ -330,7 +359,7 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 @media (min-width: 769px) {
   .how-to__grid { grid-template-columns: 1fr 1fr; }
   .how-to__card--wide { grid-column: 1 / -1; flex-direction: row; }
-  .how-to__card--wide .how-to__media { flex: 0 0 62%; aspect-ratio: 16 / 7; }
+  .how-to__card--wide .how-to__media { flex: 0 0 55%; aspect-ratio: 4 / 3; }
   .how-to__card--wide .how-to__body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; }
   .how-to__card--wide .how-to__title { font-size: 2rem; }
 }

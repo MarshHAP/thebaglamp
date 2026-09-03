@@ -8,8 +8,8 @@ wordmark, serif headings, 14px sans body, black uppercase buttons, light-grey fo
 
 1. **Cover** — full-bleed hero with headline, price and "Shop The Blamp" call to action.
 2. **Product buy box** — breadcrumb, category-style header and toolbar, gallery with wishlist tile,
-   price £29.99 (was £49.99), quantity stepper, *Add To Bag* and *Add 3 & Get 1 Free* buttons, details accordion.
-3. **How to use** — three containers in a 1 / 2 / 2 layout with image slots ready for photography.
+   price £29.99 (was £49.99), heart pack picker (1–5), *Add To Bag* and *Add 3 & Get 1 Free* buttons, details accordion.
+3. **How to use** — three containers in a 1 / 2 / 2 layout: charge and clip on, tap once to light, see everything inside and out.
 4. **FAQs** — accordion.
 5. **Footer** — customer care and shop links, region selector, newsletter sign-up, and the brand story
    ("Founded in 2026, the Blamp was designed to keep to safe, inside and out."), legal links and wordmark.
@@ -23,20 +23,26 @@ wordmark, serif headings, 14px sans body, black uppercase buttons, light-grey fo
   wired up yet — orders are stored locally in the browser.
 - Wishlist toggle, site search, mobile navigation, compact header on scroll.
 
-## Adding the "How to use" images
+## Images
 
-Drop your images into `assets/img/` and replace the placeholder inside each `.how-to__media` figure in
-`index.html`, for example:
+Product photography lives in `assets/img/pdp/`. The originals you uploaded are kept in
+`assets/img/pdp/source/`; the site serves 1200px JPEGs (`pdp-*.jpg`) and 240px thumbnails
+(`pdp-*-thumb.jpg`) generated from them. To add or replace an image, drop the new file in `source/`,
+regenerate the JPEGs (any image tool works, or Pillow: resize to 1200 and 240 square, quality 84/80) and
+update the gallery list in `index.html`.
 
-```html
-<figure class="how-to__media">
-  <img src="assets/img/how-to-1.jpg" alt="Clipping The Blamp into a bag">
-</figure>
-```
+| File | Used for |
+| --- | --- |
+| `hero-glow.jpg` | Cover image |
+| `pdp-01-front.jpg` | Main product image, cart thumbnail |
+| `pdp-02-size.jpg` … `pdp-10-gift.jpg` | Product gallery |
+| `pdp-07-usb-c.jpg`, `pdp-06-touch.jpg`, `pdp-04-in-bag.jpg` | How To Use steps 1–3 |
 
-The same applies to the product gallery (`product-front.svg`, `product-inside.svg`, `product-detail.svg`)
-and the cover image (`hero.svg`) — swap the SVG placeholders for photography and keep the file names, or
-update the `src` attributes.
+## Heart pack picker
+
+The quantity control on the buy box is five heart-shaped buttons drawn in the shape of the product.
+Hearts one to *n* light up when a pack of *n* is chosen; the others stay faded. The chosen number feeds the
+hidden `#product-qty` input, the price on the *Add To Bag* button, and the buy-2-get-1-free hint.
 
 ## Running locally
 

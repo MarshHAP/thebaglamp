@@ -9,7 +9,7 @@
     variant: 'Warm White',
     price: 29.99,
     wasPrice: 49.99,
-    image: 'assets/img/product-front.svg'
+    image: 'assets/img/pdp/pdp-01-front-thumb.jpg'
   };
   var OFFER = { buy: 2, free: 1 }; // buy 2, get 1 free => every 3rd unit free
   var STORAGE_KEY = 'blamp-store-v1';
@@ -109,7 +109,7 @@
   var INDEX = [
     { title: 'The Blamp™ — £29.99 (was £49.99)', href: '#shop', keys: 'blamp bag lamp light buy price sale offer torch' },
     { title: 'Buy 2, get 1 free', href: '#shop', keys: 'offer deal free bundle three 3' },
-    { title: 'How to use The Blamp', href: '#how-to-use', keys: 'how use clip charge sensor motion instructions' },
+    { title: 'How to use The Blamp', href: '#how-to-use', keys: 'how use clip charge tap touch brightness instructions usb-c' },
     { title: 'FAQs — delivery, returns, battery, warranty', href: '#faqs', keys: 'faq delivery returns battery warranty shipping fit' },
     { title: 'Our story', href: '#our-story', keys: 'story founded 2026 about safe' }
   ];
@@ -197,11 +197,41 @@
     }
     addBtn.textContent = 'Add To Bag — ' + money(p.total);
   }
-  on($('[data-qty-dec]'), 'click', function () { qtyInput.value = clampQty(qtyInput.value) - 1 || 1; renderQtyHint(); });
-  on($('[data-qty-inc]'), 'click', function () { qtyInput.value = clampQty(qtyInput.value) + 1; renderQtyHint(); });
-  on(qtyInput, 'input', renderQtyHint);
-  on(qtyInput, 'change', function () { qtyInput.value = clampQty(qtyInput.value); renderQtyHint(); });
-  renderQtyHint();
+
+  /* Heart picker: hearts 1..n light up for a pack of n; the rest stay faded */
+  var hearts = $$('[data-heart]');
+  function renderHearts(animate) {
+    var q = clampQty(qtyInput.value);
+    hearts.forEach(function (h) {
+      var n = parseInt(h.getAttribute('data-heart'), 10);
+      var wasLit = h.classList.contains('is-lit');
+      var lit = n <= q;
+      h.classList.toggle('is-lit', lit);
+      h.setAttribute('aria-pressed', String(n === q));
+      h.classList.remove('is-just-lit');
+      if (animate && lit && !wasLit) {
+        void h.offsetWidth; // restart the flash animation
+        h.classList.add('is-just-lit');
+      }
+    });
+  }
+  function setPickerQty(n, animate) {
+    qtyInput.value = clampQty(n);
+    renderQtyHint();
+    renderHearts(animate);
+  }
+  hearts.forEach(function (h) {
+    on(h, 'click', function () { setPickerQty(parseInt(h.getAttribute('data-heart'), 10), true); });
+  });
+  on($('[data-heart-picker]'), 'keydown', function (e) {
+    var q = clampQty(qtyInput.value);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); setPickerQty(Math.min(hearts.length, q + 1), true); hearts[clampQty(qtyInput.value) - 1].focus(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); setPickerQty(Math.max(1, q - 1), false); hearts[clampQty(qtyInput.value) - 1].focus(); }
+  });
+  on($('[data-qty-dec]'), 'click', function () { setPickerQty(clampQty(qtyInput.value) - 1 || 1, false); });
+  on($('[data-qty-inc]'), 'click', function () { setPickerQty(clampQty(qtyInput.value) + 1, true); });
+  on(qtyInput, 'change', function () { setPickerQty(qtyInput.value, true); });
+  setPickerQty(qtyInput.value, false);
 
   function addToBag(n) {
     state.qty = Math.min(99, state.qty + n);
@@ -213,7 +243,7 @@
     e.preventDefault();
     addToBag(clampQty(qtyInput.value));
   });
-  on($('[data-add-bundle]'), 'click', function () { addToBag(OFFER.buy + OFFER.free); });
+  on($('[data-add-bundle]'), 'click', function () { setPickerQty(OFFER.buy + OFFER.free, true); addToBag(OFFER.buy + OFFER.free); });
 
   /* ---------- cart drawer ---------- */
   var overlay = $('[data-overlay]');
