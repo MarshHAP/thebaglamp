@@ -36,7 +36,8 @@ update the gallery list in `index.html`.
 | `hero-glow.jpg` | Cover image |
 | `pdp-01-front.jpg` | Main product image, cart thumbnail |
 | `pdp-02-size.jpg` … `pdp-10-gift.jpg` | Product gallery |
-| `pdp-07-usb-c.jpg`, `pdp-06-touch.jpg`, `pdp-04-in-bag.jpg` | How To Use steps 1–3 |
+| `pdp-07-usb-c.jpg`, `pdp-06-touch.jpg`, `lifestyle-02.jpg` | How To Use steps 1–3 |
+| `lifestyle-01.jpg` … `lifestyle-03.jpg` | Gallery and the "Inside every bag" row under the buy box |
 
 ## Heart pack picker
 

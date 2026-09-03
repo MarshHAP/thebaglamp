@@ -338,6 +338,18 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
   .product__details { position: sticky; top: calc(var(--updates-h) + var(--header-compact-h) + 24px); }
 }
 
+/* Editorial lifestyle row at the foot of the product section (Mulberry .product-blocks) */
+.product-blocks { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--grey-150); }
+.product-blocks__title { font-size: 1.85714rem; }
+.product-blocks__grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.product-blocks__media { margin: 0 0 .75rem; aspect-ratio: 1; background: var(--grey-100); overflow: hidden; }
+.product-blocks__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.product-blocks__item:hover .product-blocks__media img { transform: scale(1.03); }
+.product-blocks__caption { margin: 0; font-size: .92857rem; color: var(--grey-900); max-width: 34ch; }
+.product-blocks__caption strong { display: block; font-family: var(--font-serif); font-size: 1.28571rem; font-weight: 400; color: var(--black); margin-bottom: .15rem; }
+@media (min-width: 769px) { .product-blocks__grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+@media (prefers-reduced-motion: reduce) { .product-blocks__media img { transition: none; } }
+
 /* --------------------------------------------------------------------------
    Section 3 — How to use (3 containers, 1 / 2 / 2 layout)
    -------------------------------------------------------------------------- */
