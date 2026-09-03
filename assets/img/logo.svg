@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="The Blamp symbol">
+  <g fill="none" stroke="#1d1d1b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 26h36l-3 30H17z"/>
+    <path d="M22 26v-6a10 10 0 0 1 20 0v6"/>
+    <circle cx="32" cy="41" r="7"/>
+    <path d="M32 30v-2M43 41h2M19 41h2M39.8 33.2l1.4-1.4M22.8 31.8l1.4 1.4"/>
+  </g>
+</svg>

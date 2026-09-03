@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="The Blamp product image (detail)">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe9a3" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#ffe9a3" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffe9a3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#f2f2f2"/>
+  <g transform="translate(0,0)">
+    <circle cx="400" cy="400" r="210" fill="#e9e9e9"/>
+    <circle cx="400" cy="400" r="180" fill="#f7efd2" stroke="#e5d9a8" stroke-width="8"/>
+    <circle cx="400" cy="400" r="120" fill="#fff8dc"/>
+    <circle cx="400" cy="400" r="46" fill="#fff"/>
+    <path d="M400 150v40M400 610v40M150 400h40M610 400h40M223 223l28 28M549 549l28 28M577 223l-28 28M251 549l-28 28" stroke="#c9c2b0" stroke-width="8" stroke-linecap="round"/>
+    <text x="400" y="700" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#a6a7ab" letter-spacing="6">MOTION-SENSING LIGHT</text>
+  </g>
+</svg>

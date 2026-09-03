@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="The Blamp product image (inside)">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe9a3" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#ffe9a3" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffe9a3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#f2f2f2"/>
+  <g transform="translate(0,10)">
+    <rect x="150" y="150" width="500" height="560" rx="18" fill="#3b3b3b"/>
+    <rect x="178" y="178" width="444" height="504" rx="12" fill="#262626"/>
+    <rect x="200" y="240" width="140" height="200" rx="8" fill="#4d4e52"/>
+    <rect x="360" y="240" width="90" height="120" rx="8" fill="#707175"/>
+    <rect x="470" y="240" width="130" height="90" rx="8" fill="#4d4e52"/>
+    <ellipse cx="400" cy="560" rx="230" ry="130" fill="url(#glow)"/>
+    <circle cx="400" cy="560" r="64" fill="#f7efd2" stroke="#e5d9a8" stroke-width="4"/>
+    <circle cx="400" cy="560" r="42" fill="#fff8dc"/>
+    <circle cx="400" cy="560" r="14" fill="#fff"/>
+  </g>
+</svg>
