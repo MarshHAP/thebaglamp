@@ -1,0 +1,27 @@
+{%- comment -%}
+  Pack / Price table for the buy box. Rows select the matching heart.
+  Expects either featured (a product with pack variants) or preview_prices (array of strings), plus pack_max.
+{%- endcomment -%}
+{%- assign tags = settings.pack_tags | newline_to_br | split: '<br />' -%}
+<div class="pack-table" data-pack-table role="group" aria-label="Pack prices">
+  <div class="pack-table__head"><span>Pack</span><span>Price</span></div>
+  {%- if featured != blank and featured.has_only_default_variant == false -%}
+    {%- assign selected = featured.selected_or_first_available_variant -%}
+    {%- for variant in featured.variants limit: pack_max -%}
+      {%- assign tag = tags[forloop.index0] | strip -%}
+      <button class="pack-table__row{% if variant.id == selected.id %} is-selected{% endif %}" type="button" data-pack-row="{{ forloop.index }}" aria-pressed="{% if variant.id == selected.id %}true{% else %}false{% endif %}">
+        <span class="pack-table__pack">{{ variant.title }}{% if tag != blank %} <span class="pack-table__tag">{{ tag }}</span>{% endif %}</span>
+        <span class="pack-table__price">{{ variant.price | money }}{% if variant.compare_at_price > variant.price %} <s>{{ variant.compare_at_price | money }}</s>{% endif %}</span>
+      </button>
+    {%- endfor -%}
+  {%- elsif preview_prices -%}
+    {%- for price in preview_prices limit: pack_max -%}
+      {%- assign tag = tags[forloop.index0] | strip -%}
+      {%- assign n = forloop.index -%}
+      <button class="pack-table__row{% if forloop.first %} is-selected{% endif %}" type="button" data-pack-row="{{ n }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+        <span class="pack-table__pack">{{ n }} {% if n == 1 %}Blamp{% else %}Blamps{% endif %}{% if tag != blank %} <span class="pack-table__tag">{{ tag }}</span>{% endif %}</span>
+        <span class="pack-table__price">{{ price | strip | times: 100 | round | money }}</span>
+      </button>
+    {%- endfor -%}
+  {%- endif -%}
+</div>

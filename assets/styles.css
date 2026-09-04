@@ -598,3 +598,26 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 .heart-picker--packs .heart-picker__heart.is-lit .heart-picker__num::after { display: none; }
 .heart-picker--packs .heart-picker__heart[aria-pressed="true"] .heart-picker__num::after { display: block; }
 .product-title__pack { margin: -.5rem 0 1rem; font-size: .85714rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--grey-600); }
+
+/* Buy box panel: subtle grey container so the white hearts read against it */
+.product__details { background: var(--grey-50); border: 1px solid var(--grey-150); padding: 1.75rem; max-width: 520px; }
+.product__details .product-promo-msg { background: var(--white); }
+.product__details .accordion__trigger { background: transparent; }
+.heart-picker__heart { --heart-fill: #e9e9e9; --heart-stroke: #c4c4c4; }
+.heart-picker__heart.is-lit { --heart-fill: #ffffff; --heart-stroke: #b8d6ff; }
+@media (max-width: 480px) { .product__details { padding: 1.25rem; } }
+
+/* Pack / price table under the hearts */
+.pack-table { margin: .75rem 0 1.25rem; background: var(--white); border: 1px solid var(--grey-150); }
+.pack-table__head, .pack-table__row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: .7rem 1rem; }
+.pack-table__head { font-size: .78571rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--grey-700); background: var(--grey-100); }
+.pack-table__row { width: 100%; text-align: left; border-top: 1px solid var(--grey-150); font-size: 1rem; transition: background-color .2s ease; }
+.pack-table__row:hover { background: var(--grey-50); }
+.pack-table__row.is-selected { background: var(--black); color: var(--white); }
+.pack-table__row.is-selected .pack-table__price s { color: var(--grey-400); }
+.pack-table__row:focus-visible { outline: 2px solid var(--black); outline-offset: -2px; }
+.pack-table__pack { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pack-table__tag { padding: 2px 7px; border-radius: 9px; background: var(--grey-100); color: var(--black); font-size: .64286rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.pack-table__row.is-selected .pack-table__tag { background: var(--white); }
+.pack-table__price { font-family: var(--font-serif); font-size: 1.14286rem; white-space: nowrap; }
+.pack-table__price s { margin-left: 6px; font-size: .85714rem; color: var(--grey-600); }

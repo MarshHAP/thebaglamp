@@ -241,8 +241,19 @@
     }
     renderQtyHint();
     renderHearts(animate);
+    renderPackRows();
   }
   hearts.forEach(function (h) { on(h, 'click', function () { setPickerQty(parseInt(h.getAttribute('data-heart'), 10), true); }); });
+  var packRows = $$('[data-pack-row]');
+  packRows.forEach(function (r) { on(r, 'click', function () { setPickerQty(parseInt(r.getAttribute('data-pack-row'), 10), true); }); });
+  function renderPackRows() {
+    var q = PACK_MODE ? selectedHeart : clampQty(qtyInput ? qtyInput.value : 1);
+    packRows.forEach(function (r) {
+      var n = parseInt(r.getAttribute('data-pack-row'), 10);
+      r.classList.toggle('is-selected', n === q);
+      r.setAttribute('aria-pressed', String(n === q));
+    });
+  }
   on(picker, 'keydown', function (e) {
     var q = clampQty(qtyInput.value);
     if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); setPickerQty(Math.min(hearts.length, q + 1), true); hearts[clampQty(qtyInput.value) - 1].focus(); }

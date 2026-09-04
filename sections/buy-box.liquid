@@ -68,6 +68,7 @@
       </div>
       <div class="product-add">
         {% render 'heart-picker', section: section, pack_max: pack_max, with_name: false, preview_prices: preview_prices %}
+        {% render 'pack-table', pack_max: pack_max, preview_prices: preview_prices %}
         <button class="btn btn--primary" type="button" data-add-to-bag disabled>Add To Bag</button>
         <p class="product-add__hint">Ordering opens as soon as the product is added in Shopify Admin (Products → Add product).</p>
       </div>
@@ -130,6 +131,7 @@
         <input type="hidden" name="id" value="{{ variant.id }}" data-variant-id>
         <script type="application/json" data-variants>{{ featured.variants | json }}</script>
         {% render 'heart-picker', section: section, pack_max: pack_max, with_name: true, featured: featured %}
+        {% render 'pack-table', pack_max: pack_max, featured: featured %}
         <button class="btn btn--primary" type="submit" data-add-to-bag{% unless variant.available %} disabled{% endunless %}>{% if variant.available %}Add To Bag{% else %}Sold Out{% endif %}</button>
         {%- if section.settings.show_bundle_button and settings.bxgy_enabled and featured.has_only_default_variant and variant.available -%}
           {%- assign bundle_qty = settings.offer_buy | plus: settings.offer_free -%}
