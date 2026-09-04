@@ -1,0 +1,17 @@
+<section class="page-shell product" aria-labelledby="collection-title">
+  <div class="plp-header">
+    <h1 class="plp-header__title" id="collection-title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="plp-header__intro">{{ collection.description }}</div>{%- endif -%}
+  </div>
+  <div class="plp-toolbar"><span class="plp-toolbar__filter">Filter</span><span class="plp-toolbar__count">{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span><span class="plp-toolbar__sort">Sort by: <strong>Featured</strong></span></div>
+  {%- paginate collection.products by 12 -%}
+  <ul class="product-grid">
+    {%- for product in collection.products -%}
+      <li>{% render 'product-card', product: product %}</li>
+    {%- else -%}
+      <li><p class="product-promo-msg">No products yet.</p></li>
+    {%- endfor -%}
+  </ul>
+  {%- if paginate.pages > 1 -%}<div class="pagination">{{ paginate | default_pagination }}</div>{%- endif -%}
+  {%- endpaginate -%}
+</section>

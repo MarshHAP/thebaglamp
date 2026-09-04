@@ -1,0 +1,6 @@
+<article class="page-shell page-shell--narrow" aria-labelledby="article-title">
+  <h1 class="page-shell__title" id="article-title">{{ article.title }}</h1>
+  <p class="plp-toolbar__count">{{ article.published_at | date: '%d %B %Y' }}</p>
+  {%- if article.image -%}{{ article.image | image_url: width: 1200 | image_tag: alt: article.title }}{%- endif -%}
+  <div class="rte">{{ article.content }}</div>
+</article>

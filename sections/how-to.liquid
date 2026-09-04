@@ -1,0 +1,60 @@
+<section class="how-to" id="how-to-use" aria-labelledby="how-to-title-{{ section.id }}">
+  <div class="section-heading">
+    {%- if section.settings.eyebrow != blank -%}<p class="section-heading__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="section-heading__title" id="how-to-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+  </div>
+  <div class="how-to__grid">
+    {%- for block in section.blocks -%}
+      <article class="how-to__card{% if forloop.first %} how-to__card--wide{% endif %}" {{ block.shopify_attributes }}>
+        <figure class="how-to__media">
+          {%- if block.settings.image != blank -%}
+            {%- assign step_alt = block.settings.image.alt | default: block.settings.title -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: step_alt, style: block.settings.position }}
+          {%- elsif block.settings.fallback != blank -%}
+            <img src="{{ block.settings.fallback | asset_url }}" alt="{{ block.settings.title | escape }}" width="1200" height="1200" loading="lazy" style="{{ block.settings.position }}">
+          {%- else -%}
+            <span class="how-to__placeholder">Image coming soon</span>
+          {%- endif -%}
+        </figure>
+        <div class="how-to__body">
+          <span class="how-to__step">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <h3 class="how-to__title">{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "How to use",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Simple by design" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How To Use The Blamp" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "fallback", "label": "Built-in image file (used when no image is picked)", "info": "e.g. pdp-07-usb-c.jpg" },
+        { "type": "text", "id": "position", "label": "Image focus (CSS object-position)", "default": "object-position:50% 50%" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Charge it, clip it on" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "A 90-minute USB-C charge gives you up to 10 hours of light." }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "How to use",
+      "blocks": [
+        { "type": "step", "settings": { "fallback": "pdp-07-usb-c.jpg", "position": "object-position:50% 70%", "title": "Charge it, clip it on", "text": "A 90-minute USB-C charge gives you up to 10 hours of light. Clip the lobster clasp to a handbag, clutch, backpack, keys or a pet collar." } },
+        { "type": "step", "settings": { "fallback": "pdp-06-touch.jpg", "position": "object-position:50% 85%", "title": "Tap once to light", "text": "One tap turns it on or off. Hold for 16 seconds to keep it lit, and tap through three brightness levels." } },
+        { "type": "step", "settings": { "fallback": "lifestyle-02.jpg", "position": "object-position:50% 50%", "title": "See everything, inside and out", "text": "Find your keys at the bottom of your bag, light the lock at the front door, or unclip it and carry it for the walk home." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

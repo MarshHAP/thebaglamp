@@ -1,0 +1,13 @@
+<section class="page-shell page-shell--narrow" aria-labelledby="register-title">
+  <h1 class="page-shell__title" id="register-title">Create Account</h1>
+  {%- form 'create_customer', class: 'checkout__form' -%}
+    {%- if form.errors -%}<p class="checkout__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <div class="form-row">
+      <label>First name <input type="text" name="customer[first_name]" autocomplete="given-name"></label>
+      <label>Last name <input type="text" name="customer[last_name]" autocomplete="family-name"></label>
+    </div>
+    <label>Email <input type="email" name="customer[email]" autocomplete="email" required></label>
+    <label>Password <input type="password" name="customer[password]" autocomplete="new-password" required></label>
+    <button class="btn btn--primary" type="submit">Create Account</button>
+  {%- endform -%}
+</section>

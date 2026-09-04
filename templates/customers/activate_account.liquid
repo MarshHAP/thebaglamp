@@ -1,0 +1,7 @@
+<section class="page-shell page-shell--narrow"><h1 class="page-shell__title">Activate Account</h1>
+{%- form 'activate_customer_password', class: 'checkout__form' -%}
+  {%- if form.errors -%}<p class="checkout__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+  <label>Password <input type="password" name="customer[password]" required></label>
+  <label>Confirm password <input type="password" name="customer[password_confirmation]" required></label>
+  <button class="btn btn--primary" type="submit">Activate</button>
+{%- endform -%}</section>

@@ -1,0 +1,12 @@
+<section class="page-shell page-shell--narrow" aria-labelledby="page-title">
+  <h1 class="page-shell__title" id="page-title">{{ page.title }}</h1>
+  <div class="rte">{{ page.content }}</div>
+  {%- form 'contact', class: 'checkout__form' -%}
+    {%- if form.posted_successfully? -%}<p class="footer-signup__msg">Thank you — we'll be in touch.</p>{%- endif -%}
+    {%- if form.errors -%}<p class="checkout__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label>Name <input type="text" name="contact[name]" required></label>
+    <label>Email <input type="email" name="contact[email]" required></label>
+    <label>Message <textarea name="contact[body]" rows="6" required></textarea></label>
+    <button class="btn btn--primary" type="submit">Send</button>
+  {%- endform -%}
+</section>

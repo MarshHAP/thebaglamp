@@ -1,0 +1,17 @@
+<section class="page-shell page-shell--narrow" aria-labelledby="login-title">
+  <h1 class="page-shell__title" id="login-title">My Blamp</h1>
+  {%- form 'customer_login', class: 'checkout__form' -%}
+    {%- if form.errors -%}<p class="checkout__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label>Email <input type="email" name="customer[email]" autocomplete="email" required></label>
+    <label>Password <input type="password" name="customer[password]" autocomplete="current-password" required></label>
+    <button class="btn btn--primary" type="submit">Sign In</button>
+    <p><a href="{{ routes.account_register_url }}">Create account</a> · <a href="#recover">Forgot your password?</a></p>
+  {%- endform -%}
+  <div id="recover">
+    {%- form 'recover_customer_password', class: 'checkout__form' -%}
+      {%- if form.posted_successfully? -%}<p class="footer-signup__msg">We've emailed you a link to reset your password.</p>{%- endif -%}
+      <label>Reset password: email <input type="email" name="email" autocomplete="email"></label>
+      <button class="btn btn--secondary" type="submit">Send reset link</button>
+    {%- endform -%}
+  </div>
+</section>

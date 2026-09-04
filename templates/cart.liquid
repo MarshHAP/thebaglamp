@@ -1,0 +1,41 @@
+<section class="page-shell" aria-labelledby="cart-title">
+  <h1 class="page-shell__title" id="cart-title">Shopping Bag</h1>
+  {%- if cart.item_count == 0 -%}
+    <p class="product-promo-msg">Your shopping bag is empty.</p>
+    <a class="btn btn--primary" href="{{ routes.root_url }}#shop">Shop The Blamp</a>
+  {%- else -%}
+  <form action="{{ routes.cart_url }}" method="post" class="cart-page">
+    <ul class="cart__items">
+      {%- for item in cart.items -%}
+        <li class="cart-item">
+          <div class="cart-item__img">{% if item.image %}{{ item.image | image_url: width: 176 | image_tag: alt: item.title }}{% endif %}</div>
+          <div>
+            <p class="cart-item__name">{{ item.product.title }}</p>
+            <p class="cart-item__meta">{% unless item.product.has_only_default_variant %}{{ item.variant.title }} · {% endunless %}{{ item.original_price | money }} each</p>
+            <div class="cart-item__row">
+              <div class="qty">
+                <label class="show-for-sr" for="updates_{{ item.key }}">Quantity</label>
+                <input class="qty__input" id="updates_{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+              </div>
+              <div class="cart-item__price">
+                {%- if item.original_line_price != item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}
+                {{ item.final_line_price | money }}
+                {%- for discount in item.line_level_discount_allocations -%}<br><span class="cart-item__free">{{ discount.discount_application.title }}</span>{%- endfor -%}
+              </div>
+            </div>
+            <a class="cart-item__remove" href="{{ item.url_to_remove }}">Remove</a>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <dl class="cart__totals cart-page__totals">
+      <div><dt>Subtotal</dt><dd>{{ cart.original_total_price | money }}</dd></div>
+      {%- if cart.total_discount > 0 -%}<div class="cart__totals-discount"><dt>Discounts</dt><dd>−{{ cart.total_discount | money }}</dd></div>{%- endif -%}
+      <div><dt>Delivery</dt><dd>Calculated at checkout</dd></div>
+      <div class="cart__totals-total"><dt>Total</dt><dd>{{ cart.total_price | money }}</dd></div>
+    </dl>
+    <button class="btn btn--secondary" type="submit" name="update">Update Bag</button>
+    <button class="btn btn--primary" type="submit" name="checkout">Checkout</button>
+  </form>
+  {%- endif -%}
+</section>

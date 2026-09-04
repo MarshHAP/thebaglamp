@@ -1,0 +1,84 @@
+{%- assign root = routes.root_url -%}
+<header class="site-header site-header--fixed" id="site-header">
+  <h1 class="show-for-sr">{{ shop.name }}</h1>
+  <div class="header-wrapper">
+
+    <button class="main-nav__toggler show-for-medium-down" id="mobile-header" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav">
+      <span class="icon-burger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <button class="personal-nav__btn personal-nav__search-mobile show-for-medium-down" data-open-search aria-label="Search">
+      {% render 'icon', icon: 'search' %}
+    </button>
+
+    <a class="site-logo site-logo--medium" href="{{ root }}" aria-label="{{ shop.name }} home">
+      <span class="site-logo__word">{{ settings.logo_text | default: shop.name }}</span>{% if settings.logo_tm %}<span class="site-logo__tm">™</span>{% endif %}
+    </a>
+
+    <nav class="personal-nav" aria-label="Account and bag">
+      <ul class="personal-nav__list">
+        <li class="personal-nav__item show-for-large-up">
+          <button class="personal-nav__btn" data-open-search>
+            {% render 'icon', icon: 'search' %}
+            <span class="personal-nav__text">Search</span>
+          </button>
+        </li>
+        <li class="personal-nav__item show-for-large-up">
+          <button class="personal-nav__btn" data-wishlist-toggle aria-pressed="false">
+            {% render 'icon', icon: 'heart' %}
+            <span class="personal-nav__text">Wishlist</span>
+            <span class="personal-nav__count" data-wishlist-count>0</span>
+          </button>
+        </li>
+        <li class="personal-nav__item show-for-large-up">
+          <a class="personal-nav__link" href="{{ routes.account_url }}">
+            {% render 'icon', icon: 'account' %}
+            <span class="personal-nav__text">{{ section.settings.account_label }}</span>
+          </a>
+        </li>
+        <li class="personal-nav__item">
+          <button class="personal-nav__btn personal-nav__bag" data-open-cart aria-label="Open shopping bag">
+            {% render 'icon', icon: 'bag' %}
+            <span class="personal-nav__text show-for-large-up">Shopping Bag</span>
+            <span class="personal-nav__count" data-cart-count data-zero="{% if cart.item_count == 0 %}true{% else %}false{% endif %}">{{ cart.item_count }}</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main">
+      <ul class="main-nav__list">
+        {%- assign menu = linklists[section.settings.menu] -%}
+        {%- if menu.links.size > 0 -%}
+          {%- for link in menu.links -%}
+            <li class="main-nav__item{% if link.active %} main-nav__item--selected{% endif %}"><a class="main-nav__link" href="{{ link.url }}"><span class="main-nav__text">{{ link.title }}</span></a></li>
+          {%- endfor -%}
+        {%- else -%}
+          <li class="main-nav__item main-nav__item--selected"><a class="main-nav__link" href="{{ root }}#shop"><span class="main-nav__text">Shop</span></a></li>
+          <li class="main-nav__item"><a class="main-nav__link" href="{{ root }}#how-to-use"><span class="main-nav__text">How To Use</span></a></li>
+          <li class="main-nav__item"><a class="main-nav__link" href="{{ root }}#faqs"><span class="main-nav__text">FAQs</span></a></li>
+          <li class="main-nav__item"><a class="main-nav__link" href="{{ root }}#our-story"><span class="main-nav__text">Our Story</span></a></li>
+        {%- endif -%}
+        <li class="main-nav__item main-nav__item--mobile-only"><a class="main-nav__link" href="{{ routes.account_url }}"><span class="main-nav__text">{{ section.settings.account_label }}</span></a></li>
+        <li class="main-nav__item main-nav__item--mobile-only"><button class="main-nav__link" data-wishlist-toggle><span class="main-nav__text">Wishlist (<span data-wishlist-count>0</span>)</span></button></li>
+      </ul>
+    </nav>
+
+    <div class="search-bar-container" id="search-bar" hidden>
+      <form class="search-bar__form" role="search" action="{{ routes.search_url }}" method="get" data-search-form>
+        <label class="show-for-sr" for="search-input">Search</label>
+        <input class="search-bar__input" id="search-input" type="search" name="q" placeholder="Search {{ shop.name }}" autocomplete="off">
+        <button class="search-bar__btn" type="submit">Search</button>
+        <button class="search-bar__close" type="button" data-close-search aria-label="Close search">×</button>
+      </form>
+    </div>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Leave the menu empty to use the built-in Shop / How To Use / FAQs / Our Story links." },
+    { "type": "text", "id": "account_label", "label": "Account link label", "default": "My Blamp" }
+  ]
+}
+{% endschema %}

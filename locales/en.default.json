@@ -1,0 +1,12 @@
+{
+  "general": {
+    "search": "Search",
+    "wishlist": "Wishlist",
+    "account": "My Blamp",
+    "bag": "Shopping Bag",
+    "add_to_bag": "Add To Bag",
+    "sold_out": "Sold Out",
+    "checkout": "Checkout",
+    "continue_shopping": "Continue Shopping"
+  }
+}

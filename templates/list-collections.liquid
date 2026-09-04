@@ -1,0 +1,8 @@
+<section class="page-shell" aria-labelledby="collections-title">
+  <h1 class="page-shell__title" id="collections-title">Collections</h1>
+  <ul class="product-grid">
+    {%- for collection in collections -%}
+      <li><a class="product-card" href="{{ collection.url }}"><div class="product-tile"><figure class="product-tile__image">{% if collection.featured_image %}{{ collection.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: collection.title }}{% endif %}</figure></div><p class="product-card__name">{{ collection.title }}</p></a></li>
+    {%- endfor -%}
+  </ul>
+</section>

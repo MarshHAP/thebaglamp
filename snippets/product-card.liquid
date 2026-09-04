@@ -1,0 +1,10 @@
+<a class="product-card" href="{{ product.url }}">
+  <div class="product-tile">
+    {%- if product.compare_at_price > product.price -%}<span class="product-tile__badge">Sale</span>{%- endif -%}
+    <figure class="product-tile__image">
+      {%- if product.featured_image -%}{%- assign card_alt = product.featured_image.alt | default: product.title -%}{{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: card_alt }}{%- endif -%}
+    </figure>
+  </div>
+  <p class="product-card__name">{{ product.title }}</p>
+  <p class="product-card__price">{{ product.price | money }}{% if product.compare_at_price > product.price %} <span class="was-price">{{ product.compare_at_price | money }}</span>{% endif %}</p>
+</a>

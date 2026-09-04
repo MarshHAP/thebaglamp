@@ -1,0 +1,106 @@
+{%- assign root = routes.root_url -%}
+<footer class="site-footer" id="our-story">
+  <div class="footer-links__holder">
+    <div class="footer-links footer-links--left">
+      <nav class="footer-links" aria-label="Footer">
+        <ul class="footer-links__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'menu' -%}
+              {%- assign menu = linklists[block.settings.menu] -%}
+              <li class="footer-links__item footer-links__item--has-children" {{ block.shopify_attributes }}>
+                <span class="footer-links__link">{{ block.settings.heading | default: menu.title }}</span>
+                <ul class="footer-links-sub__list">
+                  {%- for link in menu.links -%}
+                    <li><a class="footer-links-sub__link" href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if section.blocks.size == 0 -%}
+            <li class="footer-links__item footer-links__item--has-children">
+              <span class="footer-links__link">Customer Care</span>
+              <ul class="footer-links-sub__list">
+                <li><a class="footer-links-sub__link" href="mailto:{{ shop.email }}">Contact Us</a></li>
+                <li><a class="footer-links-sub__link" href="{{ root }}#faqs">Returns</a></li>
+                <li><a class="footer-links-sub__link" href="{{ root }}#faqs">Ordering and Shipping</a></li>
+                <li><a class="footer-links-sub__link" href="{{ root }}#faqs">FAQs</a></li>
+              </ul>
+            </li>
+            <li class="footer-links__item footer-links__item--has-children">
+              <span class="footer-links__link">Shop</span>
+              <ul class="footer-links-sub__list">
+                <li><a class="footer-links-sub__link" href="{{ root }}#shop">The Blamp™</a></li>
+                <li><a class="footer-links-sub__link" href="{{ root }}#shop">{{ settings.offer_short }}</a></li>
+                <li><a class="footer-links-sub__link" href="{{ root }}#how-to-use">How To Use</a></li>
+              </ul>
+            </li>
+          {%- endif -%}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-links footer-links--right">
+      <nav class="footer-links" aria-label="Region and updates">
+        <ul class="footer-links__list">
+          <li class="footer-links__item footer-links__item--has-children">
+            <span class="footer-links__link">Select Your Region</span>
+            <ul class="footer-links-sub__list">
+              <li><span class="footer-links-sub__link country-selector">{{ localization.country.name | default: 'United Kingdom' }} ({{ localization.country.currency.symbol | default: '£' }} {{ localization.country.currency.iso_code | default: 'GBP' }})</span></li>
+            </ul>
+          </li>
+          <li class="footer-links__item footer-links__item--has-children footer-links__item--signup">
+            <span class="footer-links__link">{{ section.settings.signup_heading }}</span>
+            {%- form 'customer', class: 'footer-signup', id: 'footer-signup' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <label class="show-for-sr" for="signup-email">Email address</label>
+              <input class="footer-signup__input" id="signup-email" type="email" name="contact[email]" placeholder="Email address" required autocomplete="email">
+              <button class="footer-signup__btn" type="submit">Go</button>
+              {%- if form.posted_successfully? -%}
+                <p class="footer-signup__msg footer-signup__msg--inline">Thank you — you're on the list.</p>
+              {%- elsif form.errors -%}
+                <p class="footer-signup__msg footer-signup__msg--inline">{{ form.errors.messages['email'] }}</p>
+              {%- endif -%}
+            {%- endform -%}
+          </li>
+          <li class="footer-links__item footer-links__item--story">
+            <p class="footer-story">{{ section.settings.story }}</p>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="footer__nav footer__agreement-nav">
+    <ul class="footer-links-sub__list footer-links-sub__list--inline">
+      {%- for policy in shop.policies -%}
+        <li><a class="footer-links-sub__link" href="{{ policy.url }}">{{ policy.title }}</a></li>
+      {%- endfor -%}
+      <li><a class="footer-links-sub__link" href="{{ root }}#faqs">FAQs</a></li>
+    </ul>
+    <div class="footer__brand">
+      <img class="footer__symbol" src="{{ 'logo.svg' | asset_url }}" alt="" width="40" height="40">
+      <span class="footer__wordmark">{{ settings.logo_text | default: shop.name }}{% if settings.logo_tm %}<sup>™</sup>{% endif %}</span>
+      <p class="footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "signup_heading", "label": "Sign-up heading", "default": "Sign Up For Updates" },
+    { "type": "textarea", "id": "story", "label": "Bottom-right story text", "default": "Founded in 2026, the Blamp was designed to keep to safe, inside and out." }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Link column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading (optional, defaults to the menu name)" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    }
+  ]
+}
+{% endschema %}

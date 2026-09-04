@@ -1,0 +1,27 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "The Blamp",
+    "theme_version": "1.0.0",
+    "theme_author": "The Blamp",
+    "theme_documentation_url": "https://github.com/MarshHAP/thebaglamp",
+    "theme_support_url": "https://github.com/MarshHAP/thebaglamp"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "text", "id": "logo_text", "label": "Wordmark text", "default": "The Blamp" },
+      { "type": "checkbox", "id": "logo_tm", "label": "Show ™ after the wordmark", "default": true },
+      { "type": "checkbox", "id": "show_announcement", "label": "Show the announcement bar", "default": true }
+    ]
+  },
+  {
+    "name": "Offer",
+    "settings": [
+      { "type": "paragraph", "content": "The offer itself is applied by Shopify. Create an automatic 'Buy X get Y' discount in Admin → Discounts (buy 2 of The Blamp, get 1 free). These settings only control how the offer is described on the page." },
+      { "type": "range", "id": "offer_buy", "label": "Customer buys", "min": 1, "max": 10, "step": 1, "default": 2 },
+      { "type": "range", "id": "offer_free", "label": "Customer gets free", "min": 1, "max": 5, "step": 1, "default": 1 },
+      { "type": "text", "id": "offer_short", "label": "Short offer label", "default": "Buy 2, get 1 free" }
+    ]
+  }
+]

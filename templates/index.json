@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "cover": { "type": "cover", "settings": {} },
+    "buy_box": {
+      "type": "buy-box",
+      "blocks": {
+        "details": { "type": "accordion", "settings": { "title": "Details", "open": true, "content": "<p>The Blamp™ is a heart-shaped keyring light in durable ABS. Tap it once to turn it on or off, hold it for 16 seconds to keep the light on, and choose from three brightness levels.</p><ul><li>Heart 5.3 cm × 5.3 cm · chain 13 cm · 25 g</li><li>USB-C rechargeable: 1.5 hour charge, up to 10 hours on high, up to 300 charges</li><li>Splash resistant · safe for kids and pets</li><li>In the box: The Blamp™, drawstring pouch, USB-C cable, user manual</li></ul>" } },
+        "delivery": { "type": "accordion", "settings": { "title": "Delivery & Returns", "content": "<p>Free standard UK delivery (2–4 working days). Next-day delivery available at checkout. Not for you? Return it within 30 days for a full refund.</p>" } },
+        "offer": { "type": "accordion", "settings": { "title": "About The Offer", "content": "<p>Buy 2, get 1 free is applied automatically in your bag. For every three Blamps you add, one is free. No code needed.</p>" } }
+      },
+      "block_order": ["details", "delivery", "offer"],
+      "settings": {}
+    },
+    "lifestyle": {
+      "type": "lifestyle-row",
+      "blocks": {
+        "one": { "type": "photo", "settings": { "fallback": "lifestyle-01.jpg", "title": "The evening bag.", "text": "One tap and the lipstick, keys and phone are right there." } },
+        "two": { "type": "photo", "settings": { "fallback": "lifestyle-02.jpg", "title": "The everyday tote.", "text": "Clips to the inside ring and stays out of the way until you need it." } },
+        "three": { "type": "photo", "settings": { "fallback": "lifestyle-03.jpg", "title": "The work bag.", "text": "Soft, glare-free light that finds the card at the bottom of the bag." } }
+      },
+      "block_order": ["one", "two", "three"],
+      "settings": {}
+    },
+    "how_to": {
+      "type": "how-to",
+      "blocks": {
+        "step1": { "type": "step", "settings": { "fallback": "pdp-07-usb-c.jpg", "position": "object-position:50% 70%", "title": "Charge it, clip it on", "text": "A 90-minute USB-C charge gives you up to 10 hours of light. Clip the lobster clasp to a handbag, clutch, backpack, keys or a pet collar." } },
+        "step2": { "type": "step", "settings": { "fallback": "pdp-06-touch.jpg", "position": "object-position:50% 85%", "title": "Tap once to light", "text": "One tap turns it on or off. Hold for 16 seconds to keep it lit, and tap through three brightness levels." } },
+        "step3": { "type": "step", "settings": { "fallback": "lifestyle-02.jpg", "position": "object-position:50% 50%", "title": "See everything, inside and out", "text": "Find your keys at the bottom of your bag, light the lock at the front door, or unclip it and carry it for the walk home." } }
+      },
+      "block_order": ["step1", "step2", "step3"],
+      "settings": {}
+    },
+    "faqs": {
+      "type": "faqs",
+      "blocks": {
+        "q1": { "type": "faq", "settings": { "question": "How does buy 2, get 1 free work?", "answer": "<p>Add three Blamps to your bag and the third is automatically free at checkout. You can do this as many times as you like — six Blamps means two are free.</p>" } },
+        "q2": { "type": "faq", "settings": { "question": "How long does the battery last?", "answer": "<p>Up to 10 hours on the highest brightness, and longer on the lower two. A full charge takes about 90 minutes over USB-C, and the battery is good for up to 300 charges.</p>" } },
+        "q3": { "type": "faq", "settings": { "question": "Will it fit my bag?", "answer": "<p>Yes. The lobster clasp clips to any ring, zip pull or strap, and at 25 g and 5.3 cm across it sits happily on a micro bag, a clutch, a backpack or a pet collar.</p>" } },
+        "q4": { "type": "faq", "settings": { "question": "How do I turn it on and off?", "answer": "<p>Tap the heart once to turn it on, and once more to turn it off. Hold it for 16 seconds to keep the light on, and tap to cycle through three brightness levels. It only lights when you tap it, so it stays off in your bag until you need it.</p>" } },
+        "q5": { "type": "faq", "settings": { "question": "What is your delivery and returns policy?", "answer": "<p>Standard UK delivery is free and takes 2–4 working days. If you change your mind, return it within 30 days for a full refund.</p>" } },
+        "q6": { "type": "faq", "settings": { "question": "Is The Blamp covered by a warranty?", "answer": "<p>Every Blamp comes with a two-year warranty covering the battery, the touch switch and the clasp.</p>" } },
+        "q7": { "type": "faq", "settings": { "question": "Is it safe for children and pets?", "answer": "<p>Yes. The shell is durable ABS with no sharp edges, it is splash resistant, and there are no small removable parts. It makes a lovely collar light for evening dog walks.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6", "q7"],
+      "settings": {}
+    }
+  },
+  "order": ["cover", "buy_box", "lifestyle", "how_to", "faqs"]
+}

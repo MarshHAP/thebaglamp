@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="icon" href="{{ 'favicon.svg' | asset_url }}" type="image/svg+xml">
+  <title>
+    {{- page_title -}}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+  {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Nunito+Sans:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  {{ 'styles.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="template-{{ template.name | handle }}{% if settings.show_announcement %} has-site-updates{% endif %}"
+      data-money-format="{{ shop.money_format | escape }}"
+      data-cart-url="{{ routes.cart_url }}"
+      data-root-url="{{ routes.root_url }}">
+<div class="site-wrapper{% if settings.show_announcement %} has-site-updates{% endif %}" id="site">
+  <a class="skip-link" href="#MainContent">Skip to content</a>
+
+  {% section 'announcement-bar' %}
+  {% section 'header' %}
+
+  <main id="MainContent" class="site-content" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  {% render 'cart-drawer' %}
+  {% render 'account-modal' %}
+  <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+</div>
+<script src="{{ 'store.js' | asset_url }}" defer></script>
+</body>
+</html>

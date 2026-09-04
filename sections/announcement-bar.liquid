@@ -1,0 +1,13 @@
+{%- if settings.show_announcement -%}
+<div class="site-updates" id="site-updates">
+  <p class="site-updates__text">{{ section.settings.text }}</p>
+</div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p><strong>Buy 2, get 1 free</strong> on The Blamp™ &nbsp;|&nbsp; Free UK delivery &amp; 30-day returns</p>" }
+  ]
+}
+{% endschema %}

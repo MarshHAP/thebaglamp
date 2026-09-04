@@ -1,0 +1,5 @@
+<section class="page-shell page-shell--narrow" aria-labelledby="addresses-title">
+  <h1 class="page-shell__title" id="addresses-title">Addresses</h1>
+  {%- for address in customer.addresses -%}<p>{{ address | format_address }}</p>{%- else -%}<p>No saved addresses.</p>{%- endfor -%}
+  <p><a href="{{ routes.account_url }}">Back to my account</a></p>
+</section>

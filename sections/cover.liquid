@@ -1,0 +1,39 @@
+<section class="cover" id="cover" aria-labelledby="cover-title-{{ section.id }}">
+  <div class="cover__media">
+    {%- if section.settings.image != blank -%}
+      {%- assign cover_alt = section.settings.image.alt | default: section.settings.heading -%}
+      {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'cover__img', loading: 'eager', fetchpriority: 'high', alt: cover_alt }}
+    {%- else -%}
+      <img class="cover__img" src="{{ 'hero-glow.jpg' | asset_url }}" alt="The Blamp heart-shaped bag light glowing in the dark" width="1400" height="1400" fetchpriority="high">
+    {%- endif -%}
+  </div>
+  <div class="cover__content">
+    {%- if section.settings.eyebrow != blank -%}<p class="cover__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="cover__title" id="cover-title-{{ section.id }}">{{ section.settings.heading }}{% if section.settings.heading_tm %}<sup>™</sup>{% endif %}</h2>
+    {%- if section.settings.subheading != blank -%}<p class="cover__subtitle"><em>{{ section.settings.subheading }}</em></p>{%- endif -%}
+    {%- assign featured = section.settings.product -%}
+    {%- if featured == blank -%}{%- assign featured = collections.all.products.first -%}{%- endif -%}
+    {%- if featured != blank -%}
+      <p class="cover__offer">Now {{ featured.price | money }}{% if featured.compare_at_price > featured.price %} <span class="cover__was">{{ featured.compare_at_price | money }}</span>{% endif %} &nbsp;·&nbsp; {{ settings.offer_short }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="btn btn--light" href="{{ section.settings.button_link | default: '#shop' }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Cover",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Defaults to the glowing Blamp shot when empty." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Introducing" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Blamp" },
+    { "type": "checkbox", "id": "heading_tm", "label": "Show ™ after the heading", "default": true },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "The heart-shaped bag light that keeps you safe, inside and out." },
+    { "type": "product", "id": "product", "label": "Product for the price line", "info": "Defaults to your first product." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop The Blamp" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [ { "name": "Cover" } ]
+}
+{% endschema %}
