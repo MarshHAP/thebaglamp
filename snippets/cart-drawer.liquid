@@ -1,6 +1,6 @@
 <div class="overlay" data-overlay hidden></div>
 <aside class="cart" id="cart" aria-label="Shopping bag" aria-hidden="true" hidden
-       data-offer-buy="{{ settings.offer_buy }}" data-offer-free="{{ settings.offer_free }}" data-offer-label="{{ settings.offer_short | escape }}">
+       data-offer-buy="{{ settings.offer_buy }}" data-offer-free="{{ settings.offer_free }}" data-bxgy="{% if settings.bxgy_enabled %}true{% else %}false{% endif %}" data-offer-label="{{ settings.offer_short | escape }}">
   <div class="cart__header">
     <h2 class="cart__title">Shopping Bag <span class="cart__count">(<span data-cart-count>{{ cart.item_count }}</span>)</span></h2>
     <button class="cart__close" data-close-cart aria-label="Close shopping bag">×</button>
@@ -16,7 +16,7 @@
   <div class="cart__footer" data-cart-footer hidden>
     <dl class="cart__totals">
       <div><dt>Subtotal</dt><dd data-cart-subtotal></dd></div>
-      <div class="cart__totals-discount" data-discount-row hidden><dt data-discount-label>{{ settings.offer_short }}</dt><dd data-cart-discount></dd></div>
+      <div class="cart__totals-discount" data-discount-row hidden><dt data-discount-label>Discounts</dt><dd data-cart-discount></dd></div>
       <div><dt>Delivery</dt><dd>Calculated at checkout</dd></div>
       <div class="cart__totals-total"><dt>Total</dt><dd data-cart-total></dd></div>
     </dl>

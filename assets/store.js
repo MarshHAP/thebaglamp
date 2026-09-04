@@ -122,9 +122,13 @@
   var picker = $('[data-heart-picker]');
   var hearts = $$('[data-heart]');
   var OFFER = { buy: 2, free: 1 };
+  var PACK_MODE = false;
+  var BXGY = false;
   if (picker) {
     OFFER.buy = parseInt(picker.getAttribute('data-offer-buy'), 10) || 2;
     OFFER.free = parseInt(picker.getAttribute('data-offer-free'), 10) || 1;
+    PACK_MODE = picker.getAttribute('data-mode') === 'variant';
+    BXGY = picker.getAttribute('data-bxgy') === 'true';
   }
   var GROUP = OFFER.buy + OFFER.free;
   var PRODUCT_ID = form ? parseInt(form.getAttribute('data-product-id'), 10) : null;
@@ -160,23 +164,60 @@
     return { qty: qty, freeUnits: freeUnits, paid: qty - freeUnits, untilNextFree: qty === 0 ? GROUP : (GROUP - (qty % GROUP)) % GROUP };
   }
   function clampQty(v) { v = parseInt(v, 10); if (isNaN(v) || v < 1) v = 1; if (v > 99) v = 99; return v; }
+  var selectedHeart = 1; // pack mode: which heart (variant) is chosen
+  function selectedPackHeart() {
+    var idInput = $('[data-variant-id]');
+    var id = idInput ? idInput.value : null;
+    for (var i = 0; i < hearts.length; i++) if (hearts[i].getAttribute('data-variant-id') === id) return i + 1;
+    return 1;
+  }
   function renderQtyHint() {
     if (!qtyInput) return;
-    var q = clampQty(qtyInput.value);
-    var p = offerFor(q);
     var hint = $('[data-qty-hint]');
     var addBtn = $('[data-add-to-bag]');
+    if (PACK_MODE) {
+      var h = hearts[selectedHeart - 1];
+      if (!h) return;
+      var n = parseInt(h.getAttribute('data-heart'), 10);
+      var price = parseInt(h.getAttribute('data-price'), 10) || 0;
+      var compare = parseInt(h.getAttribute('data-compare'), 10) || 0;
+      var available = h.getAttribute('data-available') !== 'false';
+      var single = parseInt(hearts[0].getAttribute('data-price'), 10) || 0;
+      if (hint) {
+        if (n > 1 && single) {
+          var each = price / n;
+          var saving = single * n - price;
+          hint.textContent = money(each) + ' each' + (saving > 0 ? ' — save ' + money(saving) + ' against buying singly.' : '.');
+        } else {
+          hint.textContent = h.getAttribute('data-title') || '';
+        }
+      }
+      if (addBtn) {
+        addBtn.disabled = !available;
+        addBtn.textContent = available ? 'Add To Bag — ' + money(price) : 'Sold Out';
+      }
+      var nowEl = $('[data-price-now]'), wasEl = $('[data-price-was]'), saveEl = $('[data-price-saving]'), packEl = $('[data-pack-title]');
+      if (nowEl) { nowEl.textContent = money(price); nowEl.setAttribute('data-unit-price', price); }
+      if (wasEl) { wasEl.hidden = !(compare > price); if (compare > price) wasEl.textContent = money(compare); }
+      if (saveEl) { saveEl.hidden = !(compare > price); if (compare > price) saveEl.textContent = 'Save ' + money(compare - price); }
+      if (packEl) packEl.textContent = h.getAttribute('data-title') || '';
+      return;
+    }
+    var q = clampQty(qtyInput.value);
+    var p = offerFor(q);
     var v = currentVariant();
     if (hint) {
-      hint.textContent = p.freeUnits > 0
+      if (!BXGY) hint.textContent = q + (q === 1 ? ' Blamp' : ' Blamps') + ' — ' + money(q * unitPrice);
+      else hint.textContent = p.freeUnits > 0
         ? p.freeUnits + (p.freeUnits === 1 ? ' Blamp free' : ' Blamps free') + ' — you pay ' + money(p.paid * unitPrice) + ' for ' + q + '.'
         : 'Add ' + p.untilNextFree + ' more to get one free.';
     }
-    if (addBtn && (!v || v.available)) addBtn.textContent = 'Add To Bag — ' + money(p.paid * unitPrice);
+    var paid = BXGY ? p.paid : q;
+    if (addBtn && (!v || v.available)) addBtn.textContent = 'Add To Bag — ' + money(paid * unitPrice);
   }
   function renderHearts(animate) {
     if (!qtyInput) return;
-    var q = clampQty(qtyInput.value);
+    var q = PACK_MODE ? selectedHeart : clampQty(qtyInput.value);
     hearts.forEach(function (h) {
       var n = parseInt(h.getAttribute('data-heart'), 10);
       var wasLit = h.classList.contains('is-lit');
@@ -189,7 +230,15 @@
   }
   function setPickerQty(n, animate) {
     if (!qtyInput) return;
-    qtyInput.value = clampQty(n);
+    if (PACK_MODE) {
+      selectedHeart = Math.max(1, Math.min(hearts.length, parseInt(n, 10) || 1));
+      var h = hearts[selectedHeart - 1];
+      var idInput = $('[data-variant-id]');
+      if (idInput && h) idInput.value = h.getAttribute('data-variant-id');
+      qtyInput.value = 1;
+    } else {
+      qtyInput.value = clampQty(n);
+    }
     renderQtyHint();
     renderHearts(animate);
   }
@@ -199,7 +248,7 @@
     if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); setPickerQty(Math.min(hearts.length, q + 1), true); hearts[clampQty(qtyInput.value) - 1].focus(); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); setPickerQty(Math.max(1, q - 1), false); hearts[clampQty(qtyInput.value) - 1].focus(); }
   });
-  if (qtyInput) setPickerQty(qtyInput.value, false);
+  if (qtyInput) { if (PACK_MODE) selectedHeart = selectedPackHeart(); setPickerQty(PACK_MODE ? selectedHeart : qtyInput.value, false); }
 
   /* ---------- Shopify Ajax cart ---------- */
   var overlay = $('[data-overlay]');
@@ -284,7 +333,8 @@
     // Offer hint for the featured product (or the whole bag when there is one product)
     var productQty = c.items.reduce(function (n, i) { return n + ((PRODUCT_ID === null || i.product_id === PRODUCT_ID) ? i.quantity : 0); }, 0);
     var label = cart.getAttribute('data-offer-label') || 'Buy 2, get 1 free';
-    if (c.item_count === 0) { hint.hidden = true; }
+    var cartBxgy = cart.getAttribute('data-bxgy') === 'true';
+    if (c.item_count === 0 || !cartBxgy) { hint.hidden = true; }
     else {
       var p = offerFor(productQty);
       hint.hidden = false;

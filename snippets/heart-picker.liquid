@@ -1,15 +1,44 @@
-{%- comment -%} Heart pack picker: hearts 1..n light up for a pack of n. Expects pack_max, with_name (true adds name="quantity"). {%- endcomment -%}
-<div class="heart-picker" data-heart-picker role="group" aria-label="Choose how many"
-     data-offer-buy="{{ settings.offer_buy }}" data-offer-free="{{ settings.offer_free }}">
+{%- comment -%}
+  Heart pack picker.
+  Pack mode (product has variants): heart n selects variant n; hearts show the pack price and an optional tag.
+  Quantity mode (single variant or preview): heart n sets the quantity to n.
+  Expects: pack_max, with_name, and optionally featured (the product).
+{%- endcomment -%}
+{%- assign pack_mode = false -%}
+{%- if featured != blank and featured.has_only_default_variant == false -%}{%- assign pack_mode = true -%}{%- endif -%}
+{%- assign tags = settings.pack_tags | newline_to_br | split: '<br />' -%}
+<div class="heart-picker{% if pack_mode %} heart-picker--packs{% endif %}" data-heart-picker data-mode="{% if pack_mode %}variant{% else %}quantity{% endif %}"
+     role="group" aria-label="Choose your pack"
+     data-offer-buy="{{ settings.offer_buy }}" data-offer-free="{{ settings.offer_free }}" data-bxgy="{% if settings.bxgy_enabled %}true{% else %}false{% endif %}">
   <span class="product-add__label">{{ section.settings.pack_label }}</span>
   {% render 'heart-symbol' %}
   <div class="heart-picker__row">
-    {%- for n in (1..pack_max) -%}
-      <button class="heart-picker__heart{% if n == 1 %} is-lit{% endif %}" type="button" data-heart="{{ n }}" aria-pressed="{% if n == 1 %}true{% else %}false{% endif %}" aria-label="{{ n }} {% if n == 1 %}Blamp{% else %}Blamps{% endif %}">
-        <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
-        <span class="heart-picker__num">{{ n }}</span>
-      </button>
-    {%- endfor -%}
+    {%- if pack_mode -%}
+      {%- assign selected = featured.selected_or_first_available_variant -%}
+      {%- for variant in featured.variants limit: pack_max -%}
+        {%- assign n = forloop.index -%}
+        {%- assign tag = tags[forloop.index0] | strip -%}
+        {%- assign lit = false -%}{%- if variant.id == selected.id %}{% assign lit = true %}{% endif -%}
+        <button class="heart-picker__heart{% if lit %} is-lit{% endif %}" type="button"
+                data-heart="{{ n }}" data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}" data-compare="{{ variant.compare_at_price | default: 0 }}" data-available="{{ variant.available }}" data-title="{{ variant.title | escape }}"
+                aria-pressed="{% if lit %}true{% else %}false{% endif %}" aria-label="{{ variant.title | escape }}, {{ variant.price | money }}">
+          {%- if tag != blank -%}<span class="heart-picker__tag">{{ tag }}</span>{%- endif -%}
+          <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
+          <span class="heart-picker__num">{{ n }}</span>
+          <span class="heart-picker__price">{{ variant.price | money }}</span>
+        </button>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for n in (1..pack_max) -%}
+        {%- assign tag = tags[forloop.index0] | strip -%}
+        <button class="heart-picker__heart{% if n == 1 %} is-lit{% endif %}" type="button" data-heart="{{ n }}" aria-pressed="{% if n == 1 %}true{% else %}false{% endif %}" aria-label="{{ n }} {% if n == 1 %}Blamp{% else %}Blamps{% endif %}">
+          {%- if tag != blank -%}<span class="heart-picker__tag">{{ tag }}</span>{%- endif -%}
+          <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
+          <span class="heart-picker__num">{{ n }}</span>
+          {%- if preview_prices and preview_prices[forloop.index0] -%}<span class="heart-picker__price">{{ preview_prices[forloop.index0] | times: 100 | round | money }}</span>{%- endif -%}
+        </button>
+      {%- endfor -%}
+    {%- endif -%}
   </div>
   <input type="hidden" id="product-qty" value="1"{% if with_name %} name="quantity"{% endif %}>
   {%- if section.settings.pack_caption != blank -%}<p class="heart-picker__caption">{{ section.settings.pack_caption }}</p>{%- endif -%}

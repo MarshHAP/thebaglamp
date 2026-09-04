@@ -8,7 +8,7 @@
 {%- if featured == blank and template.name == 'product' -%}{%- assign featured = product -%}{%- endif -%}
 {%- if featured == blank -%}{%- assign featured = collections.all.products.first -%}{%- endif -%}
 {%- assign root = routes.root_url -%}
-{%- assign pack_max = section.settings.pack_max | default: 5 -%}
+{%- assign pack_max = section.settings.pack_max | default: 3 -%}
 
 <section class="product" id="shop" aria-labelledby="product-title-{{ section.id }}">
   <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -32,7 +32,8 @@
 
   {%- if featured == blank -%}
   {%- comment -%} ---------- Preview (no product in the store yet) ---------- {%- endcomment -%}
-  {%- assign preview_price = section.settings.preview_price | default: '29.99' | times: 100 | round -%}
+  {%- assign preview_prices = section.settings.preview_prices | default: '19.99,29.99,34.99' | split: ',' -%}
+  {%- assign preview_price = preview_prices[0] | strip | times: 100 | round -%}
   {%- assign preview_compare = section.settings.preview_compare | default: '0' | times: 100 | round -%}
   {%- assign saving = preview_compare | minus: preview_price -%}
   {%- assign saving_pct = saving | times: 100.0 | divided_by: preview_compare | round -%}
@@ -66,7 +67,7 @@
         <ul class="product-colour__swatches"><li><span class="swatch swatch--selected" style="--swatch:{{ section.settings.colour_hex }}"></span></li></ul>
       </div>
       <div class="product-add">
-        {% render 'heart-picker', section: section, pack_max: pack_max, with_name: false %}
+        {% render 'heart-picker', section: section, pack_max: pack_max, with_name: false, preview_prices: preview_prices %}
         <button class="btn btn--primary" type="button" data-add-to-bag disabled>Add To Bag</button>
         <p class="product-add__hint">Ordering opens as soon as the product is added in Shopify Admin (Products → Add product).</p>
       </div>
@@ -111,39 +112,26 @@
         <h3 class="product-title__name" id="product-title-{{ section.id }}">{{ featured.title }}</h3>
         {%- if section.settings.strapline != blank -%}<p class="product-title__description">{{ section.settings.strapline }}</p>{%- endif -%}
         <p class="product-title__price">
-          <span class="price price--now" data-unit-price="{{ variant.price }}">{{ variant.price | money }}</span>
-          {%- if on_sale -%}
-            <span class="was-price">{{ variant.compare_at_price | money }}</span>
-            <span class="price__saving">Save {{ saving | money }}</span>
-          {%- endif -%}
+          <span class="price price--now" data-unit-price="{{ variant.price }}" data-price-now>{{ variant.price | money }}</span>
+          <span class="was-price" data-price-was{% unless on_sale %} hidden{% endunless %}>{% if on_sale %}{{ variant.compare_at_price | money }}{% endif %}</span>
+          <span class="price__saving" data-price-saving{% unless on_sale %} hidden{% endunless %}>{% if on_sale %}Save {{ saving | money }}{% endif %}</span>
         </p>
+        {%- if featured.has_only_default_variant == false -%}<p class="product-title__pack" data-pack-title>{{ variant.title }}</p>{%- endif -%}
       </div>
 
       {%- if section.settings.offer_message != blank -%}<p class="product-promo-msg">{{ section.settings.offer_message }}</p>{%- endif -%}
 
-      {%- if featured.has_only_default_variant -%}
-        <div class="product-colour">
-          <span class="product-colour__label">Colour: <strong>{{ section.settings.colour_name }}</strong></span>
-          <ul class="product-colour__swatches"><li><span class="swatch swatch--selected" style="--swatch:{{ section.settings.colour_hex }}" title="{{ section.settings.colour_name | escape }}"></span></li></ul>
-        </div>
-      {%- else -%}
-        <div class="product-colour">
-          {%- for option in featured.options_with_values -%}
-            <label class="product-colour__label" for="option-{{ section.id }}-{{ forloop.index }}">{{ option.name }}:
-              <select id="option-{{ section.id }}-{{ forloop.index }}" class="product-option" data-option-index="{{ forloop.index0 }}">
-                {%- for value in option.values -%}<option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>{{ value }}</option>{%- endfor -%}
-              </select>
-            </label>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
+      <div class="product-colour">
+        <span class="product-colour__label">Colour: <strong>{{ section.settings.colour_name }}</strong></span>
+        <ul class="product-colour__swatches"><li><span class="swatch swatch--selected" style="--swatch:{{ section.settings.colour_hex }}" title="{{ section.settings.colour_name | escape }}"></span></li></ul>
+      </div>
 
       {%- form 'product', featured, class: 'product-add', data-add-form: '', data-product-id: featured.id -%}
         <input type="hidden" name="id" value="{{ variant.id }}" data-variant-id>
         <script type="application/json" data-variants>{{ featured.variants | json }}</script>
-        {% render 'heart-picker', section: section, pack_max: pack_max, with_name: true %}
+        {% render 'heart-picker', section: section, pack_max: pack_max, with_name: true, featured: featured %}
         <button class="btn btn--primary" type="submit" data-add-to-bag{% unless variant.available %} disabled{% endunless %}>{% if variant.available %}Add To Bag{% else %}Sold Out{% endif %}</button>
-        {%- if section.settings.show_bundle_button and variant.available -%}
+        {%- if section.settings.show_bundle_button and settings.bxgy_enabled and featured.has_only_default_variant and variant.available -%}
           {%- assign bundle_qty = settings.offer_buy | plus: settings.offer_free -%}
           <button class="btn btn--secondary" type="button" data-add-bundle data-bundle-qty="{{ bundle_qty }}">Add {{ bundle_qty }} &amp; Get {{ settings.offer_free }} Free</button>
         {%- endif -%}
@@ -162,17 +150,17 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "The Blamp™ Bag Lamp" },
     { "type": "textarea", "id": "intro", "label": "Intro", "default": "One product. One job. A heart-shaped light that clips to any bag. Tap once and it glows: find your keys, light your step at the door, and see everything in your bag without a fumble." },
     { "type": "text", "id": "strapline", "label": "Strapline under the product name", "default": "Heart-shaped bag light · Touch control · USB-C rechargeable" },
-    { "type": "text", "id": "offer_message", "label": "Offer message", "default": "Buy 2, get 1 free — add three to your bag and only pay for two." },
+    { "type": "text", "id": "offer_message", "label": "Offer message", "default": "One for £19.99, two for £29.99, or three for £34.99 — pick your pack below." },
     { "type": "text", "id": "colour_name", "label": "Colour name (single-variant products)", "default": "White" },
     { "type": "color", "id": "colour_hex", "label": "Colour swatch", "default": "#ffffff" },
     { "type": "text", "id": "pack_label", "label": "Pack picker label", "default": "Choose your pack" },
-    { "type": "range", "id": "pack_max", "label": "Number of hearts", "min": 3, "max": 8, "step": 1, "default": 5 },
-    { "type": "text", "id": "pack_caption", "label": "Pack picker caption", "default": "Tap a heart to choose your pack. Three or more and one is free." },
-    { "type": "checkbox", "id": "show_bundle_button", "label": "Show the 'Add 3 & get 1 free' button", "default": true },
+    { "type": "range", "id": "pack_max", "label": "Number of hearts", "min": 2, "max": 8, "step": 1, "default": 3 },
+    { "type": "text", "id": "pack_caption", "label": "Pack picker caption", "default": "Tap a heart to choose your pack." },
+    { "type": "checkbox", "id": "show_bundle_button", "label": "Show the bundle button (quantity mode only)", "default": false },
     { "type": "textarea", "id": "usps", "label": "Reasons to buy (one per line)", "default": "Free UK delivery on every order\n30-day returns, no questions asked\n2-year warranty" },
     { "type": "header", "content": "Preview (before a product exists)" },
-    { "type": "text", "id": "preview_price", "label": "Preview price (e.g. 29.99)", "default": "29.99" },
-    { "type": "text", "id": "preview_compare", "label": "Preview was-price (e.g. 49.99)", "default": "49.99" }
+    { "type": "text", "id": "preview_prices", "label": "Preview pack prices, comma separated", "default": "19.99,29.99,34.99" },
+    { "type": "text", "id": "preview_compare", "label": "Preview was-price for one Blamp (blank for none)", "default": "29.99" }
   ],
   "blocks": [
     {
@@ -192,7 +180,7 @@
       "blocks": [
         { "type": "accordion", "settings": { "title": "Details", "open": true, "content": "<p>The Blamp™ is a heart-shaped keyring light in durable ABS. Tap it once to turn it on or off, hold it for 16 seconds to keep the light on, and choose from three brightness levels.</p><ul><li>Heart 5.3 cm × 5.3 cm · chain 13 cm · 25 g</li><li>USB-C rechargeable: 1.5 hour charge, up to 10 hours on high, up to 300 charges</li><li>Splash resistant · safe for kids and pets</li><li>In the box: The Blamp™, drawstring pouch, USB-C cable, user manual</li></ul>" } },
         { "type": "accordion", "settings": { "title": "Delivery & Returns", "content": "<p>Free standard UK delivery (2–4 working days). Next-day delivery available at checkout. Not for you? Return it within 30 days for a full refund.</p>" } },
-        { "type": "accordion", "settings": { "title": "About The Offer", "content": "<p>Buy 2, get 1 free is applied automatically in your bag. For every three Blamps you add, one is free. No code needed.</p>" } }
+        { "type": "accordion", "settings": { "title": "About The Packs", "content": "<p>One Blamp is £19.99. Two are £29.99 and three are £34.99, so a three pack works out at under £12 each. Choose your pack with the hearts and the price updates before you add to bag.</p>" } }
       ]
     }
   ]

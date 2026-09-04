@@ -3,23 +3,79 @@
     "buy_box": {
       "type": "buy-box",
       "blocks": {
-        "details": { "type": "accordion", "settings": { "title": "Details", "open": true, "use_description": true } },
-        "delivery": { "type": "accordion", "settings": { "title": "Delivery & Returns", "content": "<p>Free standard UK delivery (2–4 working days). Next-day delivery available at checkout. Not for you? Return it within 30 days for a full refund.</p>" } },
-        "offer": { "type": "accordion", "settings": { "title": "About The Offer", "content": "<p>Buy 2, get 1 free is applied automatically in your bag. For every three Blamps you add, one is free. No code needed.</p>" } }
+        "details": {
+          "type": "accordion",
+          "settings": {
+            "title": "Details",
+            "open": true,
+            "use_description": true
+          }
+        },
+        "delivery": {
+          "type": "accordion",
+          "settings": {
+            "title": "Delivery & Returns",
+            "content": "<p>Free standard UK delivery (2–4 working days). Next-day delivery available at checkout. Not for you? Return it within 30 days for a full refund.</p>"
+          }
+        },
+        "offer": {
+          "type": "accordion",
+          "settings": {
+            "title": "About The Packs",
+            "content": "<p>One Blamp is £19.99. Two are £29.99 and three are £34.99, so a three pack works out at under £12 each. Choose your pack with the hearts and the price updates before you add to bag.</p>"
+          }
+        }
       },
-      "block_order": ["details", "delivery", "offer"],
-      "settings": { "heading": "The Blamp™ Bag Lamp", "intro": "" }
+      "block_order": [
+        "details",
+        "delivery",
+        "offer"
+      ],
+      "settings": {
+        "heading": "The Blamp™ Bag Lamp",
+        "intro": ""
+      }
     },
     "how_to": {
       "type": "how-to",
       "blocks": {
-        "step1": { "type": "step", "settings": { "fallback": "pdp-07-usb-c.jpg", "position": "object-position:50% 70%", "title": "Charge it, clip it on", "text": "A 90-minute USB-C charge gives you up to 10 hours of light. Clip the lobster clasp to a handbag, clutch, backpack, keys or a pet collar." } },
-        "step2": { "type": "step", "settings": { "fallback": "pdp-06-touch.jpg", "position": "object-position:50% 85%", "title": "Tap once to light", "text": "One tap turns it on or off. Hold for 16 seconds to keep it lit, and tap through three brightness levels." } },
-        "step3": { "type": "step", "settings": { "fallback": "lifestyle-02.jpg", "title": "See everything, inside and out", "text": "Find your keys at the bottom of your bag, light the lock at the front door, or unclip it and carry it for the walk home." } }
+        "step1": {
+          "type": "step",
+          "settings": {
+            "fallback": "pdp-07-usb-c.jpg",
+            "position": "object-position:50% 70%",
+            "title": "Charge it, clip it on",
+            "text": "A 90-minute USB-C charge gives you up to 10 hours of light. Clip the lobster clasp to a handbag, clutch, backpack, keys or a pet collar."
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "fallback": "pdp-06-touch.jpg",
+            "position": "object-position:50% 85%",
+            "title": "Tap once to light",
+            "text": "One tap turns it on or off. Hold for 16 seconds to keep it lit, and tap through three brightness levels."
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "fallback": "lifestyle-02.jpg",
+            "title": "See everything, inside and out",
+            "text": "Find your keys at the bottom of your bag, light the lock at the front door, or unclip it and carry it for the walk home."
+          }
+        }
       },
-      "block_order": ["step1", "step2", "step3"],
+      "block_order": [
+        "step1",
+        "step2",
+        "step3"
+      ],
       "settings": {}
     }
   },
-  "order": ["buy_box", "how_to"]
+  "order": [
+    "buy_box",
+    "how_to"
+  ]
 }

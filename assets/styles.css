@@ -581,3 +581,20 @@ legend { padding: 0; margin-bottom: .75rem; font-family: var(--font-serif); font
 .shopify-challenge__container { padding: 3rem var(--gutter); }
 .footer-signup { flex-wrap: wrap; }
 .footer-signup__msg--inline { flex-basis: 100%; }
+
+/* Heart picker — pack mode */
+.heart-picker--packs .heart-picker__row { max-width: 360px; }
+.heart-picker__heart { padding-top: 22px; }
+.heart-picker__tag {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  white-space: nowrap; padding: 2px 7px; border-radius: 9px;
+  background: var(--black); color: var(--white);
+  font-size: .64286rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; line-height: 1.4;
+  opacity: .55; transition: opacity .25s ease;
+}
+.heart-picker__heart.is-lit .heart-picker__tag, .heart-picker__heart[aria-pressed="true"] .heart-picker__tag { opacity: 1; }
+.heart-picker__price { font-family: var(--font-serif); font-size: 1rem; line-height: 1; margin-top: 2px; color: var(--grey-600); }
+.heart-picker__heart.is-lit .heart-picker__price { color: var(--black); }
+.heart-picker--packs .heart-picker__heart.is-lit .heart-picker__num::after { display: none; }
+.heart-picker--packs .heart-picker__heart[aria-pressed="true"] .heart-picker__num::after { display: block; }
+.product-title__pack { margin: -.5rem 0 1rem; font-size: .85714rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--grey-600); }

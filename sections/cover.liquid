@@ -14,7 +14,7 @@
     {%- assign featured = section.settings.product -%}
     {%- if featured == blank -%}{%- assign featured = collections.all.products.first -%}{%- endif -%}
     {%- if featured != blank -%}
-      <p class="cover__offer">Now {{ featured.price | money }}{% if featured.compare_at_price > featured.price %} <span class="cover__was">{{ featured.compare_at_price | money }}</span>{% endif %} &nbsp;·&nbsp; {{ settings.offer_short }}</p>
+      <p class="cover__offer">{% if featured.price_varies %}From {{ featured.price_min | money }}{% else %}Now {{ featured.price | money }}{% if featured.compare_at_price > featured.price %} <span class="cover__was">{{ featured.compare_at_price | money }}</span>{% endif %}{% endif %} &nbsp;·&nbsp; {{ settings.offer_short }}</p>
     {%- endif -%}
     {%- if section.settings.button_label != blank -%}
       <a class="btn btn--light" href="{{ section.settings.button_link | default: '#shop' }}">{{ section.settings.button_label }}</a>

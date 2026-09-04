@@ -3,8 +3,10 @@
     "logo_text": "The Blamp",
     "logo_tm": true,
     "show_announcement": true,
+    "offer_short": "2 for £29.99, 3 for £34.99",
+    "pack_tags": "\nMost popular\nBest value",
+    "bxgy_enabled": false,
     "offer_buy": 2,
-    "offer_free": 1,
-    "offer_short": "Buy 2, get 1 free"
+    "offer_free": 1
   }
 }

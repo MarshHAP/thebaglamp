@@ -13,13 +13,13 @@ The original static HTML version of the store is kept in `static-site/` for refe
 1. In Shopify Admin go to **Online Store → Themes → Add theme → Connect from GitHub**, pick this repository and
    the `claude/great-clarke-ld3wmx` branch (or `main` once merged). Shopify pulls the theme and keeps it in sync
    with every push.
-2. **Add the product**: Products → Add product. Title *The Blamp™*, price **29.99**, compare-at price **49.99**,
-   upload the photos from `assets/` (pdp-01-front.jpg first). The home page picks up your first product
-   automatically; you can also choose it explicitly in the theme editor under *Product buy box → Product*.
-3. **Set up buy 2, get 1 free**: Discounts → Create discount → *Buy X get Y* → method *Automatic discount*.
-   Customer buys quantity **2** of The Blamp, gets quantity **1** of The Blamp at **100% off**, and leave
-   "Set a maximum number of uses per order" unticked so 6 Blamps means 2 free. Shopify applies it in the bag and
-   at checkout; the theme's wording for the offer lives in *Theme settings → Offer*.
+2. **The product and its packs**: the product *The Blamp™* has a *Pack* option with three variants and their own
+   prices: **1 Blamp £19.99**, **2 Blamps £29.99** (tagged *Most popular*) and **3 Blamps £34.99** (tagged
+   *Best value*). Edit prices under Products in Admin; the hearts on the buy box pick a pack and show its price.
+   The tags on the hearts live in *Theme settings → Offer → Pack tags* (one line per heart).
+3. **Quantity mode**: if a product has no packs (a single variant), the hearts choose a quantity instead. Tick
+   *Describe a buy X get Y offer* in *Theme settings → Offer* only if you have created a matching automatic
+   discount under Discounts.
 4. **Menus** (optional): the header uses the *Main menu* and the footer columns use the *Footer* menu. With no
    menu set, the header falls back to Shop / How To Use / FAQs / Our Story anchors on the home page.
 5. **Policies**: Settings → Policies. Cookie, terms and privacy links in the footer appear automatically once
@@ -33,7 +33,8 @@ Payments, delivery rates, taxes and checkout are all handled by Shopify.
 
 1. **Cover** — full-bleed hero with headline, price and "Shop The Blamp" call to action.
 2. **Product buy box** — breadcrumb, category-style header and toolbar, gallery with wishlist tile,
-   price £29.99 (was £49.99), heart pack picker (1–5), *Add To Bag* and *Add 3 & Get 1 Free* buttons, details accordion.
+   pack prices (1 for £19.99, 2 for £29.99, 3 for £34.99), heart pack picker with *Most popular* and *Best value*
+   tags, *Add To Bag*, details accordion.
 3. **How to use** — three containers in a 1 / 2 / 2 layout: charge and clip on, tap once to light, see everything inside and out.
 4. **FAQs** — accordion.
 5. **Footer** — customer care and shop links, region selector, newsletter sign-up, and the brand story
@@ -43,8 +44,8 @@ Payments, delivery rates, taxes and checkout are all handled by Shopify.
 
 - Cart drawer driven by Shopify's Cart API (`/cart/add.js`, `/cart/change.js`, `/cart.js`), so the bag,
   discounts and totals are always Shopify's own numbers.
-- The buy-2-get-1-free hint ("add 1 more for a free one") is computed from *Theme settings → Offer*; the
-  discount itself is Shopify's automatic discount.
+- In pack mode each heart is a product variant: tapping it swaps the variant, price, was-price and the
+  *Add To Bag* total. In quantity mode (single-variant products) the hearts set the quantity.
 - Heart pack picker, wishlist toggle (browser-local), site search, mobile navigation, compact header on scroll.
 - Checkout is Shopify checkout.
 
@@ -65,9 +66,9 @@ steps and the lifestyle row until you pick your own in the theme editor. The ori
 
 ## Heart pack picker
 
-The quantity control on the buy box is five heart-shaped buttons drawn in the shape of the product.
-Hearts one to *n* light up when a pack of *n* is chosen; the others stay faded. The chosen number feeds the
-hidden `#product-qty` input, the price on the *Add To Bag* button, and the buy-2-get-1-free hint.
+The pack control on the buy box is three heart-shaped buttons drawn in the shape of the product, one per pack
+variant, each showing its price and optional tag. Hearts one to *n* light up when pack *n* is chosen; the others
+stay faded. The chosen heart sets the variant sent to the cart and updates the price line and the *Add To Bag* total.
 
 ## Developing locally
 

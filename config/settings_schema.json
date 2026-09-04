@@ -18,10 +18,14 @@
   {
     "name": "Offer",
     "settings": [
-      { "type": "paragraph", "content": "The offer itself is applied by Shopify. Create an automatic 'Buy X get Y' discount in Admin → Discounts (buy 2 of The Blamp, get 1 free). These settings only control how the offer is described on the page." },
+      { "type": "paragraph", "content": "Packs are the product's variants (Pack: 1 Blamp / 2 Blamps / 3 Blamps) with their own prices, set in Admin → Products. The hearts on the buy box pick a pack. These settings only control how the offer is described." },
+      { "type": "text", "id": "offer_short", "label": "Short offer label", "default": "2 for £29.99, 3 for £34.99" },
+      { "type": "textarea", "id": "pack_tags", "label": "Pack tags (one line per heart, blank for none)", "default": "\nMost popular\nBest value" },
+      { "type": "header", "content": "Quantity mode (single-variant products)" },
+      { "type": "paragraph", "content": "Only used when the product has no packs: the hearts choose a quantity and these describe an automatic 'Buy X get Y' discount you create in Admin → Discounts." },
+      { "type": "checkbox", "id": "bxgy_enabled", "label": "Describe a buy X get Y offer", "default": false },
       { "type": "range", "id": "offer_buy", "label": "Customer buys", "min": 1, "max": 10, "step": 1, "default": 2 },
-      { "type": "range", "id": "offer_free", "label": "Customer gets free", "min": 1, "max": 5, "step": 1, "default": 1 },
-      { "type": "text", "id": "offer_short", "label": "Short offer label", "default": "Buy 2, get 1 free" }
+      { "type": "range", "id": "offer_free", "label": "Customer gets free", "min": 1, "max": 5, "step": 1, "default": 1 }
     ]
   }
 ]
