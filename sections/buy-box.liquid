@@ -1,6 +1,8 @@
 {%- comment -%}
   Product buy box. On the home page it shows the picked product (or the first
   product in the store); on a product page it shows that page's product.
+  With no product in the store yet, it previews The Blamp from the theme's own
+  images and the preview prices in the section settings.
 {%- endcomment -%}
 {%- assign featured = section.settings.product -%}
 {%- if featured == blank and template.name == 'product' -%}{%- assign featured = product -%}{%- endif -%}
@@ -29,21 +31,63 @@
   </div>
 
   {%- if featured == blank -%}
-    <div class="product__empty">
-      <p class="product-promo-msg">Add a product in Shopify Admin (Products → Add product), then pick it in this section's settings.</p>
+  {%- comment -%} ---------- Preview (no product in the store yet) ---------- {%- endcomment -%}
+  {%- assign preview_price = section.settings.preview_price | default: '29.99' | times: 100 | round -%}
+  {%- assign preview_compare = section.settings.preview_compare | default: '0' | times: 100 | round -%}
+  {%- assign saving = preview_compare | minus: preview_price -%}
+  {%- assign saving_pct = saving | times: 100.0 | divided_by: preview_compare | round -%}
+  {%- assign preview_images = 'pdp-01-front,pdp-03-glow,lifestyle-01,lifestyle-02,lifestyle-03,pdp-04-in-bag,pdp-05-everyday,pdp-06-touch,pdp-07-usb-c,pdp-02-size,pdp-09-box,pdp-08-packs,pdp-10-gift' | split: ',' -%}
+  <div class="product__layout">
+    <div class="product__gallery">
+      <div class="product-tile">
+        {%- if saving > 0 -%}<span class="product-tile__badge">Sale · Save {{ saving_pct }}%</span>{%- endif -%}
+        <button class="product-tile__wishlist" data-wishlist-toggle aria-pressed="false" aria-label="Add The Blamp to wishlist">{% render 'icon', icon: 'heart' %}</button>
+        <figure class="product-tile__image"><img id="product-main-image" src="{{ 'pdp-01-front.jpg' | asset_url }}" alt="The Blamp™ heart-shaped keyring light" width="1200" height="1200"></figure>
+      </div>
+      <ul class="product__thumbs" aria-label="Product images">
+        {%- for name in preview_images -%}
+          {%- assign full = name | append: '.jpg' -%}{%- assign thumb = name | append: '-thumb.jpg' -%}
+          <li><button class="product__thumb{% if forloop.first %} is-active{% endif %}" type="button" data-image="{{ full | asset_url }}" data-alt="The Blamp™"><img src="{{ thumb | asset_url }}" alt="" width="120" height="120" loading="lazy"></button></li>
+        {%- endfor -%}
+      </ul>
     </div>
+    <div class="product__details">
+      <div class="product-title">
+        <h3 class="product-title__name" id="product-title-{{ section.id }}">The Blamp™</h3>
+        {%- if section.settings.strapline != blank -%}<p class="product-title__description">{{ section.settings.strapline }}</p>{%- endif -%}
+        <p class="product-title__price">
+          <span class="price price--now" data-unit-price="{{ preview_price }}">{{ preview_price | money }}</span>
+          {%- if saving > 0 -%}<span class="was-price">{{ preview_compare | money }}</span><span class="price__saving">Save {{ saving | money }}</span>{%- endif -%}
+        </p>
+      </div>
+      {%- if section.settings.offer_message != blank -%}<p class="product-promo-msg">{{ section.settings.offer_message }}</p>{%- endif -%}
+      <div class="product-colour">
+        <span class="product-colour__label">Colour: <strong>{{ section.settings.colour_name }}</strong></span>
+        <ul class="product-colour__swatches"><li><span class="swatch swatch--selected" style="--swatch:{{ section.settings.colour_hex }}"></span></li></ul>
+      </div>
+      <div class="product-add">
+        {% render 'heart-picker', section: section, pack_max: pack_max, with_name: false %}
+        <button class="btn btn--primary" type="button" data-add-to-bag disabled>Add To Bag</button>
+        <p class="product-add__hint">Ordering opens as soon as the product is added in Shopify Admin (Products → Add product).</p>
+      </div>
+      {% render 'buy-box-tail', section: section, featured: featured %}
+    </div>
+  </div>
+
   {%- else -%}
+  {%- comment -%} ---------- Live product ---------- {%- endcomment -%}
   {%- assign variant = featured.selected_or_first_available_variant -%}
   {%- assign on_sale = false -%}
-  {%- if variant.compare_at_price > variant.price -%}{%- assign on_sale = true -%}{%- assign saving = variant.compare_at_price | minus: variant.price -%}{%- assign saving_pct = saving | times: 100.0 | divided_by: variant.compare_at_price | round -%}{%- endif -%}
-
+  {%- if variant.compare_at_price > variant.price -%}
+    {%- assign on_sale = true -%}
+    {%- assign saving = variant.compare_at_price | minus: variant.price -%}
+    {%- assign saving_pct = saving | times: 100.0 | divided_by: variant.compare_at_price | round -%}
+  {%- endif -%}
   <div class="product__layout">
     <div class="product__gallery">
       <div class="product-tile">
         {%- if on_sale -%}<span class="product-tile__badge">Sale · Save {{ saving_pct }}%</span>{%- endif -%}
-        <button class="product-tile__wishlist" data-wishlist-toggle aria-pressed="false" aria-label="Add {{ featured.title | escape }} to wishlist">
-          {% render 'icon', icon: 'heart' %}
-        </button>
+        <button class="product-tile__wishlist" data-wishlist-toggle aria-pressed="false" aria-label="Add {{ featured.title | escape }} to wishlist">{% render 'icon', icon: 'heart' %}</button>
         <figure class="product-tile__image">
           {%- if featured.featured_image != blank -%}
             {%- assign main_alt = featured.featured_image.alt | default: featured.title -%}
@@ -77,7 +121,12 @@
 
       {%- if section.settings.offer_message != blank -%}<p class="product-promo-msg">{{ section.settings.offer_message }}</p>{%- endif -%}
 
-      {%- if featured.has_only_default_variant == false -%}
+      {%- if featured.has_only_default_variant -%}
+        <div class="product-colour">
+          <span class="product-colour__label">Colour: <strong>{{ section.settings.colour_name }}</strong></span>
+          <ul class="product-colour__swatches"><li><span class="swatch swatch--selected" style="--swatch:{{ section.settings.colour_hex }}" title="{{ section.settings.colour_name | escape }}"></span></li></ul>
+        </div>
+      {%- else -%}
         <div class="product-colour">
           {%- for option in featured.options_with_values -%}
             <label class="product-colour__label" for="option-{{ section.id }}-{{ forloop.index }}">{{ option.name }}:
@@ -87,34 +136,12 @@
             </label>
           {%- endfor -%}
         </div>
-      {%- else -%}
-        <div class="product-colour">
-          <span class="product-colour__label">Colour: <strong>{{ section.settings.colour_name }}</strong></span>
-          <ul class="product-colour__swatches"><li><span class="swatch swatch--selected" style="--swatch:{{ section.settings.colour_hex }}" title="{{ section.settings.colour_name | escape }}"></span></li></ul>
-        </div>
       {%- endif -%}
 
       {%- form 'product', featured, class: 'product-add', data-add-form: '', data-product-id: featured.id -%}
         <input type="hidden" name="id" value="{{ variant.id }}" data-variant-id>
         <script type="application/json" data-variants>{{ featured.variants | json }}</script>
-
-        <div class="heart-picker" data-heart-picker role="group" aria-label="Choose how many"
-             data-offer-buy="{{ settings.offer_buy }}" data-offer-free="{{ settings.offer_free }}">
-          <span class="product-add__label">{{ section.settings.pack_label }}</span>
-          {% render 'heart-symbol' %}
-          <div class="heart-picker__row">
-            {%- for n in (1..pack_max) -%}
-              <button class="heart-picker__heart{% if n == 1 %} is-lit{% endif %}" type="button" data-heart="{{ n }}" aria-pressed="{% if n == 1 %}true{% else %}false{% endif %}" aria-label="{{ n }} {% if n == 1 %}Blamp{% else %}Blamps{% endif %}">
-                <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
-                <span class="heart-picker__num">{{ n }}</span>
-              </button>
-            {%- endfor -%}
-          </div>
-          <input type="hidden" name="quantity" id="product-qty" value="1">
-          {%- if section.settings.pack_caption != blank -%}<p class="heart-picker__caption">{{ section.settings.pack_caption }}</p>{%- endif -%}
-        </div>
-        <p class="product-add__hint" data-qty-hint></p>
-
+        {% render 'heart-picker', section: section, pack_max: pack_max, with_name: true %}
         <button class="btn btn--primary" type="submit" data-add-to-bag{% unless variant.available %} disabled{% endunless %}>{% if variant.available %}Add To Bag{% else %}Sold Out{% endif %}</button>
         {%- if section.settings.show_bundle_button and variant.available -%}
           {%- assign bundle_qty = settings.offer_buy | plus: settings.offer_free -%}
@@ -122,25 +149,7 @@
         {%- endif -%}
       {%- endform -%}
 
-      {%- assign usps = section.settings.usps | newline_to_br | split: '<br />' -%}
-      {%- if section.settings.usps != blank -%}
-      <ul class="product-usp">
-        {%- for usp in usps -%}{%- if usp != blank -%}<li>{{ usp | strip }}</li>{%- endif -%}{%- endfor -%}
-      </ul>
-      {%- endif -%}
-
-      <div class="accordion product-tabs" data-accordion>
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'accordion' -%}
-          <div class="accordion-navigation" {{ block.shopify_attributes }}>
-            <button class="accordion__trigger" aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}" aria-controls="acc-{{ block.id }}">{{ block.settings.title }}</button>
-            <div class="accordion__content" id="acc-{{ block.id }}"{% unless block.settings.open %} hidden{% endunless %}>
-              {%- if block.settings.use_description -%}{{ featured.description }}{%- else -%}{{ block.settings.content }}{%- endif -%}
-            </div>
-          </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+      {% render 'buy-box-tail', section: section, featured: featured %}
     </div>
   </div>
   {%- endif -%}
@@ -160,7 +169,10 @@
     { "type": "range", "id": "pack_max", "label": "Number of hearts", "min": 3, "max": 8, "step": 1, "default": 5 },
     { "type": "text", "id": "pack_caption", "label": "Pack picker caption", "default": "Tap a heart to choose your pack. Three or more and one is free." },
     { "type": "checkbox", "id": "show_bundle_button", "label": "Show the 'Add 3 & get 1 free' button", "default": true },
-    { "type": "textarea", "id": "usps", "label": "Reasons to buy (one per line)", "default": "Free UK delivery on every order\n30-day returns, no questions asked\n2-year warranty" }
+    { "type": "textarea", "id": "usps", "label": "Reasons to buy (one per line)", "default": "Free UK delivery on every order\n30-day returns, no questions asked\n2-year warranty" },
+    { "type": "header", "content": "Preview (before a product exists)" },
+    { "type": "text", "id": "preview_price", "label": "Preview price (e.g. 29.99)", "default": "29.99" },
+    { "type": "text", "id": "preview_compare", "label": "Preview was-price (e.g. 49.99)", "default": "49.99" }
   ],
   "blocks": [
     {

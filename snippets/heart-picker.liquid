@@ -1,0 +1,17 @@
+{%- comment -%} Heart pack picker: hearts 1..n light up for a pack of n. Expects pack_max, with_name (true adds name="quantity"). {%- endcomment -%}
+<div class="heart-picker" data-heart-picker role="group" aria-label="Choose how many"
+     data-offer-buy="{{ settings.offer_buy }}" data-offer-free="{{ settings.offer_free }}">
+  <span class="product-add__label">{{ section.settings.pack_label }}</span>
+  {% render 'heart-symbol' %}
+  <div class="heart-picker__row">
+    {%- for n in (1..pack_max) -%}
+      <button class="heart-picker__heart{% if n == 1 %} is-lit{% endif %}" type="button" data-heart="{{ n }}" aria-pressed="{% if n == 1 %}true{% else %}false{% endif %}" aria-label="{{ n }} {% if n == 1 %}Blamp{% else %}Blamps{% endif %}">
+        <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
+        <span class="heart-picker__num">{{ n }}</span>
+      </button>
+    {%- endfor -%}
+  </div>
+  <input type="hidden" id="product-qty" value="1"{% if with_name %} name="quantity"{% endif %}>
+  {%- if section.settings.pack_caption != blank -%}<p class="heart-picker__caption">{{ section.settings.pack_caption }}</p>{%- endif -%}
+</div>
+<p class="product-add__hint" data-qty-hint></p>

@@ -1,0 +1,19 @@
+{%- comment -%} Reasons-to-buy list + accordion, shared by the live and preview buy box. {%- endcomment -%}
+{%- if section.settings.usps != blank -%}
+  {%- assign usps = section.settings.usps | newline_to_br | split: '<br />' -%}
+  <ul class="product-usp">
+    {%- for usp in usps -%}{%- if usp != blank -%}<li>{{ usp | strip }}</li>{%- endif -%}{%- endfor -%}
+  </ul>
+{%- endif -%}
+<div class="accordion product-tabs" data-accordion>
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'accordion' -%}
+    <div class="accordion-navigation" {{ block.shopify_attributes }}>
+      <button class="accordion__trigger" aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}" aria-controls="acc-{{ block.id }}">{{ block.settings.title }}</button>
+      <div class="accordion__content" id="acc-{{ block.id }}"{% unless block.settings.open %} hidden{% endunless %}>
+        {%- if block.settings.use_description and featured != blank -%}{{ featured.description }}{%- else -%}{{ block.settings.content }}{%- endif -%}
+      </div>
+    </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
