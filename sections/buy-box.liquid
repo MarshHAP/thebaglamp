@@ -33,15 +33,16 @@
   {%- if featured == blank -%}
   {%- comment -%} ---------- Preview (no product in the store yet) ---------- {%- endcomment -%}
   {%- assign preview_prices = section.settings.preview_prices | default: '19.99,29.99,34.99' | split: ',' -%}
+  {%- assign preview_compares = section.settings.preview_compares | default: '23.99,35.99,41.99' | split: ',' -%}
   {%- assign preview_price = preview_prices[0] | strip | times: 100 | round -%}
-  {%- assign preview_compare = section.settings.preview_compare | default: '0' | times: 100 | round -%}
+  {%- assign preview_compare = preview_compares[0] | default: '0' | strip | times: 100 | round -%}
   {%- assign saving = preview_compare | minus: preview_price -%}
   {%- assign saving_pct = saving | times: 100.0 | divided_by: preview_compare | round -%}
   {%- assign preview_images = 'pdp-01-front,pdp-03-glow,lifestyle-01,lifestyle-02,lifestyle-03,pdp-04-in-bag,pdp-05-everyday,pdp-06-touch,pdp-07-usb-c,pdp-02-size,pdp-09-box,pdp-08-packs,pdp-10-gift' | split: ',' -%}
   <div class="product__layout">
     <div class="product__gallery">
       <div class="product-tile">
-        {%- if saving > 0 -%}<span class="product-tile__badge">Sale · Save {{ saving_pct }}%</span>{%- endif -%}
+        {%- if saving > 0 -%}<span class="product-tile__badge">September Sale · {{ saving_pct }}% off</span>{%- endif -%}
         <button class="product-tile__wishlist" data-wishlist-toggle aria-pressed="false" aria-label="Add The Blamp to wishlist">{% render 'icon', icon: 'heart' %}</button>
         <figure class="product-tile__image"><img id="product-main-image" src="{{ 'pdp-01-front.jpg' | asset_url }}" alt="The Blamp™ heart-shaped keyring light" width="1200" height="1200"></figure>
       </div>
@@ -68,7 +69,7 @@
       </div>
       <div class="product-add">
         {% render 'heart-picker', section: section, pack_max: pack_max, with_name: false, preview_prices: preview_prices %}
-        {% render 'pack-table', pack_max: pack_max, preview_prices: preview_prices %}
+        {% render 'pack-table', pack_max: pack_max, preview_prices: preview_prices, preview_compares: preview_compares %}
         <button class="btn btn--primary" type="button" data-add-to-bag disabled>Add To Bag</button>
         <p class="product-add__hint">Ordering opens as soon as the product is added in Shopify Admin (Products → Add product).</p>
       </div>
@@ -88,7 +89,7 @@
   <div class="product__layout">
     <div class="product__gallery">
       <div class="product-tile">
-        {%- if on_sale -%}<span class="product-tile__badge">Sale · Save {{ saving_pct }}%</span>{%- endif -%}
+        {%- if on_sale -%}<span class="product-tile__badge">September Sale · {{ saving_pct }}% off</span>{%- endif -%}
         <button class="product-tile__wishlist" data-wishlist-toggle aria-pressed="false" aria-label="Add {{ featured.title | escape }} to wishlist">{% render 'icon', icon: 'heart' %}</button>
         <figure class="product-tile__image">
           {%- if featured.featured_image != blank -%}
@@ -159,10 +160,10 @@
     { "type": "range", "id": "pack_max", "label": "Number of hearts", "min": 2, "max": 8, "step": 1, "default": 3 },
     { "type": "text", "id": "pack_caption", "label": "Pack picker caption", "default": "Tap a heart to choose your pack." },
     { "type": "checkbox", "id": "show_bundle_button", "label": "Show the bundle button (quantity mode only)", "default": false },
-    { "type": "textarea", "id": "usps", "label": "Reasons to buy (one per line)", "default": "Free UK delivery on every order\n30-day returns, no questions asked\n2-year warranty" },
+    { "type": "textarea", "id": "usps", "label": "Reasons to buy (one per line)", "default": "September Sale: 20% off every pack\n30-day returns, no questions asked\n2-year warranty" },
     { "type": "header", "content": "Preview (before a product exists)" },
     { "type": "text", "id": "preview_prices", "label": "Preview pack prices, comma separated", "default": "19.99,29.99,34.99" },
-    { "type": "text", "id": "preview_compare", "label": "Preview was-price for one Blamp (blank for none)", "default": "29.99" }
+    { "type": "text", "id": "preview_compares", "label": "Preview was-prices, comma separated (blank for none)", "default": "23.99,35.99,41.99" }
   ],
   "blocks": [
     {
@@ -181,7 +182,7 @@
       "name": "Product buy box",
       "blocks": [
         { "type": "accordion", "settings": { "title": "Details", "open": true, "content": "<p>The Blamp™ is a heart-shaped keyring light in durable ABS. Tap it once to turn it on or off, hold it for 16 seconds to keep the light on, and choose from three brightness levels.</p><ul><li>Heart 5.3 cm × 5.3 cm · chain 13 cm · 25 g</li><li>USB-C rechargeable: 1.5 hour charge, up to 10 hours on high, up to 300 charges</li><li>Splash resistant · safe for kids and pets</li><li>In the box: The Blamp™, drawstring pouch, USB-C cable, user manual</li></ul>" } },
-        { "type": "accordion", "settings": { "title": "Delivery & Returns", "content": "<p>Free standard UK delivery (2–4 working days). Next-day delivery available at checkout. Not for you? Return it within 30 days for a full refund.</p>" } },
+        { "type": "accordion", "settings": { "title": "Delivery & Returns", "content": "<p>UK delivery takes 2–4 working days, with next-day available; the rate is shown at checkout. Not for you? Return it within 30 days for a full refund.</p>" } },
         { "type": "accordion", "settings": { "title": "About The Packs", "content": "<p>One Blamp is £19.99. Two are £29.99 and three are £34.99, so a three pack works out at under £12 each. Choose your pack with the hearts and the price updates before you add to bag.</p>" } }
       ]
     }

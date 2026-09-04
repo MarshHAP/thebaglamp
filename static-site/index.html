@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Blamp™ | The Bag Lamp – Keeps you safe, inside and out</title>
-  <meta name="description" content="The Blamp™ is a heart-shaped, touch-controlled bag light designed to keep you safe, inside and out. £29.99, was £49.99. Buy 2, get 1 free. Free UK delivery.">
+  <meta name="description" content="The Blamp™ is a heart-shaped, touch-controlled bag light designed to keep you safe, inside and out. September Sale: one for £19.99, two for £29.99, three for £34.99.">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
     "offers": {
       "@type": "Offer",
       "priceCurrency": "GBP",
-      "price": "29.99",
+      "price": "19.99",
       "availability": "https://schema.org/InStock",
       "url": "https://thebaglamp.com/#shop"
     }
@@ -35,7 +35,7 @@
 
   <!-- ===================== HEADER ===================== -->
   <div class="site-updates" id="site-updates">
-    <p class="site-updates__text"><strong>Buy 2, get 1 free</strong> on The Blamp™ &nbsp;|&nbsp; Free UK delivery &amp; 30-day returns</p>
+    <p class="site-updates__text"><strong>September Sale</strong> — 20% off every pack of The Blamp™ &nbsp;|&nbsp; 30-day returns</p>
   </div>
 
   <header class="site-header site-header--fixed" id="site-header">
@@ -115,10 +115,10 @@
         <img class="cover__img" src="assets/img/pdp/hero-glow.jpg" alt="The Blamp heart-shaped bag light glowing in the dark" fetchpriority="high" width="1400" height="1400">
       </div>
       <div class="cover__content">
-        <p class="cover__eyebrow">Introducing</p>
+        <p class="cover__eyebrow">September Sale · 20% off</p>
         <h2 class="cover__title" id="cover-title">The Blamp<sup>™</sup></h2>
         <p class="cover__subtitle"><em>The heart-shaped bag light that keeps you safe, inside and out.</em></p>
-        <p class="cover__offer">Now £29.99 <span class="cover__was">£49.99</span> &nbsp;·&nbsp; Buy 2, get 1 free</p>
+        <p class="cover__offer">From £19.99 <span class="cover__was">£23.99</span> &nbsp;·&nbsp; 2 for £29.99, 3 for £34.99</p>
         <a class="btn btn--light" href="#shop">Shop The Blamp</a>
       </div>
     </section>
@@ -148,7 +148,7 @@
         <!-- Gallery -->
         <div class="product__gallery">
           <div class="product-tile">
-            <span class="product-tile__badge">Sale · Save 40%</span>
+            <span class="product-tile__badge">September Sale · 20% off</span>
             <button class="product-tile__wishlist" data-wishlist-toggle aria-pressed="false" aria-label="Add The Blamp to wishlist">
               <svg class="icon icon-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
             </button>
@@ -179,13 +179,14 @@
             <h3 class="product-title__name" id="product-title">The Blamp™</h3>
             <p class="product-title__description">Heart-shaped bag light · Touch control · USB-C rechargeable</p>
             <p class="product-title__price">
-              <span class="price price--now" data-unit-price="29.99">£29.99</span>
-              <span class="was-price">£49.99</span>
-              <span class="price__saving">Save £20.00</span>
+              <span class="price price--now" data-price-now>£19.99</span>
+              <span class="was-price" data-price-was>£23.99</span>
+              <span class="price__saving" data-price-saving>Save £4.00</span>
             </p>
+            <p class="product-title__pack" data-pack-title>1 Blamp</p>
           </div>
 
-          <p class="product-promo-msg">Buy 2, get 1 free — add three to your bag and only pay for two.</p>
+          <p class="product-promo-msg">September Sale: one for £19.99, two for £29.99, or three for £34.99 — pick your pack below.</p>
 
           <div class="product-colour">
             <span class="product-colour__label">Colour: <strong>White</strong></span>
@@ -195,7 +196,7 @@
           </div>
 
           <form class="product-add" data-add-form>
-            <div class="heart-picker" data-heart-picker role="group" aria-label="Choose how many Blamps">
+            <div class="heart-picker heart-picker--packs" data-heart-picker role="group" aria-label="Choose your pack">
               <span class="product-add__label" id="heart-picker-label">Choose your pack</span>
               <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
                 <symbol id="blamp-heart" viewBox="0 0 64 88">
@@ -210,37 +211,39 @@
                 </symbol>
               </defs></svg>
               <div class="heart-picker__row">
-                <button class="heart-picker__heart is-lit" type="button" data-heart="1" aria-pressed="true" aria-label="1 Blamp">
+                <button class="heart-picker__heart is-lit" type="button" data-heart="1" aria-pressed="true" aria-label="1 Blamp, £19.99">
                   <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
                   <span class="heart-picker__num">1</span>
+                  <span class="heart-picker__price">£19.99</span>
                 </button>
-                <button class="heart-picker__heart" type="button" data-heart="2" aria-pressed="false" aria-label="2 Blamps">
+                <button class="heart-picker__heart" type="button" data-heart="2" aria-pressed="false" aria-label="2 Blamps, £29.99">
+                  <span class="heart-picker__tag">Most popular</span>
                   <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
                   <span class="heart-picker__num">2</span>
+                  <span class="heart-picker__price">£29.99</span>
                 </button>
-                <button class="heart-picker__heart" type="button" data-heart="3" aria-pressed="false" aria-label="3 Blamps">
+                <button class="heart-picker__heart" type="button" data-heart="3" aria-pressed="false" aria-label="3 Blamps, £34.99">
+                  <span class="heart-picker__tag">Best value</span>
                   <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
                   <span class="heart-picker__num">3</span>
-                </button>
-                <button class="heart-picker__heart" type="button" data-heart="4" aria-pressed="false" aria-label="4 Blamps">
-                  <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
-                  <span class="heart-picker__num">4</span>
-                </button>
-                <button class="heart-picker__heart" type="button" data-heart="5" aria-pressed="false" aria-label="5 Blamps">
-                  <svg class="heart-picker__svg" viewBox="0 0 64 88" aria-hidden="true"><use href="#blamp-heart"/></svg>
-                  <span class="heart-picker__num">5</span>
+                  <span class="heart-picker__price">£34.99</span>
                 </button>
               </div>
               <input type="hidden" id="product-qty" value="1">
-              <p class="heart-picker__caption">Tap a heart to choose your pack. Three or more and one is free.</p>
+              <p class="heart-picker__caption">Tap a heart to choose your pack.</p>
             </div>
-            <p class="product-add__hint" data-qty-hint>Add 2 more to get one free.</p>
-            <button class="btn btn--primary" type="submit" data-add-to-bag>Add To Bag</button>
-            <button class="btn btn--secondary" type="button" data-add-bundle>Add 3 &amp; Get 1 Free — £59.98</button>
+            <div class="pack-table" data-pack-table role="group" aria-label="Pack prices">
+              <div class="pack-table__head"><span>Pack</span><span>Price</span></div>
+              <button class="pack-table__row is-selected" type="button" data-pack-row="1" aria-pressed="true"><span class="pack-table__pack">1 Blamp</span><span class="pack-table__price">£19.99 <s>£23.99</s></span></button>
+              <button class="pack-table__row" type="button" data-pack-row="2" aria-pressed="false"><span class="pack-table__pack">2 Blamps <span class="pack-table__tag">Most popular</span></span><span class="pack-table__price">£29.99 <s>£35.99</s></span></button>
+              <button class="pack-table__row" type="button" data-pack-row="3" aria-pressed="false"><span class="pack-table__pack">3 Blamps <span class="pack-table__tag">Best value</span></span><span class="pack-table__price">£34.99 <s>£41.99</s></span></button>
+            </div>
+            <p class="product-add__hint" data-qty-hint></p>
+            <button class="btn btn--primary" type="submit" data-add-to-bag>Add To Bag — £19.99</button>
           </form>
 
           <ul class="product-usp">
-            <li>Free UK delivery on every order</li>
+            <li>September Sale: 20% off every pack</li>
             <li>30-day returns, no questions asked</li>
             <li>2-year warranty</li>
           </ul>
@@ -261,14 +264,14 @@
             <div class="accordion-navigation">
               <button class="accordion__trigger" aria-expanded="false" aria-controls="acc-delivery">Delivery &amp; Returns</button>
               <div class="accordion__content" id="acc-delivery" hidden>
-                <p>Free standard UK delivery (2–4 working days). Next-day delivery available at checkout for £4.95. International delivery is coming soon.</p>
+                <p>UK delivery takes 2–4 working days, with next-day available; the rate is shown at checkout. International delivery is coming soon.</p>
                 <p>Not for you? Return it within 30 days for a full refund.</p>
               </div>
             </div>
             <div class="accordion-navigation">
-              <button class="accordion__trigger" aria-expanded="false" aria-controls="acc-offer">About The Offer</button>
+              <button class="accordion__trigger" aria-expanded="false" aria-controls="acc-offer">About The Packs</button>
               <div class="accordion__content" id="acc-offer" hidden>
-                <p>Buy 2, get 1 free is applied automatically in your bag. For every three Blamps you add, the cheapest one is free. No code needed.</p>
+                <p>September Sale prices: one Blamp is £19.99 (was £23.99), two are £29.99 (was £35.99) and three are £34.99 (was £41.99), so a three pack works out at under £12 each. Choose your pack with the hearts and the price updates before you add to bag.</p>
               </div>
             </div>
           </div>
@@ -349,8 +352,8 @@
 
       <div class="accordion faqs__accordion" data-accordion>
         <div class="accordion-navigation">
-          <button class="accordion__trigger" aria-expanded="false" aria-controls="faq-1">How does buy 2, get 1 free work?</button>
-          <div class="accordion__content" id="faq-1" hidden><p>Add three Blamps to your bag and the third is automatically free at checkout. You can do this as many times as you like — six Blamps means two are free.</p></div>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="faq-1">How do the packs work?</button>
+          <div class="accordion__content" id="faq-1" hidden><p>One Blamp is £19.99. Two are £29.99 and three are £34.99, so a three pack works out at under £12 each. Tap a heart on the product page to choose your pack; the second heart is our most popular and the third is the best value.</p></div>
         </div>
         <div class="accordion-navigation">
           <button class="accordion__trigger" aria-expanded="false" aria-controls="faq-2">How long does the battery last?</button>
@@ -366,7 +369,7 @@
         </div>
         <div class="accordion-navigation">
           <button class="accordion__trigger" aria-expanded="false" aria-controls="faq-5">What is your delivery and returns policy?</button>
-          <div class="accordion__content" id="faq-5" hidden><p>Standard UK delivery is free and takes 2–4 working days. If you change your mind, return it within 30 days for a full refund.</p></div>
+          <div class="accordion__content" id="faq-5" hidden><p>UK delivery takes 2–4 working days and next-day delivery is available; the rate is shown at checkout. If you change your mind, return it within 30 days for a full refund.</p></div>
         </div>
         <div class="accordion-navigation">
           <button class="accordion__trigger" aria-expanded="false" aria-controls="faq-6">Is The Blamp covered by a warranty?</button>
@@ -398,7 +401,7 @@
                 <span class="footer-links__link">Shop</span>
                 <ul class="footer-links-sub__list">
                   <li><a class="footer-links-sub__link" href="#shop">The Blamp™</a></li>
-                  <li><a class="footer-links-sub__link" href="#shop">Buy 2, Get 1 Free</a></li>
+                  <li><a class="footer-links-sub__link" href="#shop">Packs from £19.99</a></li>
                   <li><a class="footer-links-sub__link" href="#how-to-use">How To Use</a></li>
                 </ul>
               </li>
@@ -467,8 +470,8 @@
     <div class="cart__footer" data-cart-footer hidden>
       <dl class="cart__totals">
         <div><dt>Subtotal</dt><dd data-cart-subtotal>£0.00</dd></div>
-        <div class="cart__totals-discount" data-discount-row hidden><dt>Buy 2, get 1 free</dt><dd data-cart-discount>−£0.00</dd></div>
-        <div><dt>Delivery</dt><dd>Free</dd></div>
+        <div class="cart__totals-discount" data-discount-row hidden><dt>Discounts</dt><dd data-cart-discount>−£0.00</dd></div>
+        <div><dt>Delivery</dt><dd>Calculated at checkout</dd></div>
         <div class="cart__totals-total"><dt>Total</dt><dd data-cart-total>£0.00</dd></div>
       </dl>
       <button class="btn btn--primary" data-open-checkout>Checkout</button>
@@ -506,7 +509,7 @@
             </fieldset>
             <fieldset>
               <legend>Delivery Method</legend>
-              <label class="radio"><input type="radio" name="delivery" value="0" checked> Standard (2–4 working days) — <strong>Free</strong></label>
+              <label class="radio"><input type="radio" name="delivery" value="3.95" checked> Standard (2–4 working days) — <strong>£3.95</strong></label>
               <label class="radio"><input type="radio" name="delivery" value="4.95"> Next day — <strong>£4.95</strong></label>
             </fieldset>
             <fieldset>
@@ -528,7 +531,7 @@
             <ul class="checkout__items" data-checkout-items></ul>
             <dl class="cart__totals">
               <div><dt>Subtotal</dt><dd data-cart-subtotal>£0.00</dd></div>
-              <div class="cart__totals-discount" data-discount-row hidden><dt>Buy 2, get 1 free</dt><dd data-cart-discount>−£0.00</dd></div>
+              <div class="cart__totals-discount" data-discount-row hidden><dt>Discounts</dt><dd data-cart-discount>−£0.00</dd></div>
               <div><dt>Delivery</dt><dd data-checkout-delivery>Free</dd></div>
               <div class="cart__totals-total"><dt>Total</dt><dd data-checkout-total>£0.00</dd></div>
             </dl>

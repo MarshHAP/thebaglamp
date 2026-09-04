@@ -15,7 +15,9 @@ The original static HTML version of the store is kept in `static-site/` for refe
    with every push.
 2. **The product and its packs**: the product *The Blamp™* has a *Pack* option with three variants and their own
    prices: **1 Blamp £19.99**, **2 Blamps £29.99** (tagged *Most popular*) and **3 Blamps £34.99** (tagged
-   *Best value*). Edit prices under Products in Admin; the hearts on the buy box pick a pack and show its price.
+   *Best value*). For the September Sale each variant's compare-at price is 20% higher (£23.99, £35.99, £41.99),
+   which the theme shows struck through. Edit prices under Products in Admin; the hearts on the buy box pick a
+   pack and show its price.
    The tags on the hearts live in *Theme settings → Offer → Pack tags* (one line per heart).
 3. **Quantity mode**: if a product has no packs (a single variant), the hearts choose a quantity instead. Tick
    *Describe a buy X get Y offer* in *Theme settings → Offer* only if you have created a matching automatic
@@ -33,8 +35,8 @@ Payments, delivery rates, taxes and checkout are all handled by Shopify.
 
 1. **Cover** — full-bleed hero with headline, price and "Shop The Blamp" call to action.
 2. **Product buy box** — breadcrumb, category-style header and toolbar, gallery with wishlist tile,
-   pack prices (1 for £19.99, 2 for £29.99, 3 for £34.99), heart pack picker with *Most popular* and *Best value*
-   tags, *Add To Bag*, details accordion.
+   pack prices (1 for £19.99, 2 for £29.99, 3 for £34.99, with September Sale was-prices 20% higher struck
+   through), heart pack picker with *Most popular* and *Best value* tags, pack table, *Add To Bag*, details accordion.
 3. **How to use** — three containers in a 1 / 2 / 2 layout: charge and clip on, tap once to light, see everything inside and out.
 4. **FAQs** — accordion.
 5. **Footer** — customer care and shop links, region selector, newsletter sign-up, and the brand story
@@ -44,7 +46,7 @@ Payments, delivery rates, taxes and checkout are all handled by Shopify.
 
 - Cart drawer driven by Shopify's Cart API (`/cart/add.js`, `/cart/change.js`, `/cart.js`), so the bag,
   discounts and totals are always Shopify's own numbers.
-- In pack mode each heart is a product variant: tapping it swaps the variant, price, was-price and the
+- In pack mode each heart is a product variant: tapping it swaps the variant, the price and the
   *Add To Bag* total. In quantity mode (single-variant products) the hearts set the quantity.
 - Heart pack picker, wishlist toggle (browser-local), site search, mobile navigation, compact header on scroll.
 - Checkout is Shopify checkout.

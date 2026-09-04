@@ -20,7 +20,8 @@
       {%- assign n = forloop.index -%}
       <button class="pack-table__row{% if forloop.first %} is-selected{% endif %}" type="button" data-pack-row="{{ n }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
         <span class="pack-table__pack">{{ n }} {% if n == 1 %}Blamp{% else %}Blamps{% endif %}{% if tag != blank %} <span class="pack-table__tag">{{ tag }}</span>{% endif %}</span>
-        <span class="pack-table__price">{{ price | strip | times: 100 | round | money }}</span>
+        {%- assign compare = preview_compares[forloop.index0] | default: '0' | strip | times: 100 | round -%}
+        <span class="pack-table__price">{{ price | strip | times: 100 | round | money }}{% if compare > 0 %} <s>{{ compare | money }}</s>{% endif %}</span>
       </button>
     {%- endfor -%}
   {%- endif -%}
